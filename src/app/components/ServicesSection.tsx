@@ -338,10 +338,6 @@ const services = [
 
 type Service = (typeof services)[0];
 
-// ---------------------------------------------------------------------------
-// ServicesSection (main)
-// ---------------------------------------------------------------------------
-
 export function ServicesSection() {
   const [activeTab, setActiveTab] = useState("الكل");
   const [selectedService, setSelectedService] = useState<Service | null>(null);

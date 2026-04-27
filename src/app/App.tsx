@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router";
 import { Navbar } from "./components/Navbar";
 import { HeroSection } from "./components/HeroSection";
 import { ServicesSection } from "./components/ServicesSection";
@@ -10,22 +11,33 @@ import { Partners } from "./components/Partners";
 import { FAQ } from "./components/FAQ";
 import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
+import { ProductPage } from "./pages/ProductPage";
 
 export default function App() {
   return (
     <div style={{ fontFamily: "'Cairo', sans-serif", background: "#F8F9FC" }}>
-      <Navbar />
-      <HeroSection />
-      <ServicesSection />
-      <HowItWorks />
-      <Portfolio />
-      <Testimonials />
-      <WhyChooseUs />
-      <Pricing />
-      <Partners />
-      <FAQ />
-      <FinalCTA />
-      <Footer />
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <>
+              <Navbar />
+              <HeroSection />
+              <ServicesSection />
+              <HowItWorks />
+              <Portfolio />
+              <Testimonials />
+              <WhyChooseUs />
+              <Pricing />
+              <Partners />
+              <FAQ />
+              <FinalCTA />
+              <Footer />
+            </>
+          }
+        />
+        <Route path="/info" element={<ProductPage />} />
+      </Routes>
     </div>
   );
 }

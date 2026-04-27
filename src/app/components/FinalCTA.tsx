@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 
-export function FinalCTA() {
+export function FinalCTA() { 
   return (
     <section
       className="relative py-28 overflow-hidden"

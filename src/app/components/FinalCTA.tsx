@@ -2,7 +2,7 @@ import { motion } from "motion/react";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 
 export function FinalCTA() { 
-  return (
+  return ( 
     <section
       className="relative py-28 overflow-hidden"
       style={{ background: "linear-gradient(135deg, #1a0533 0%, #2d1b69 40%, #1a3a6e 80%, #0d2b52 100%)" }}

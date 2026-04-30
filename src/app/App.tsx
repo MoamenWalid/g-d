@@ -1,3 +1,4 @@
+import React from "react";
 import { Routes, Route } from "react-router";
 import { Navbar } from "./components/Navbar";
 import { HeroSection } from "./components/HeroSection";
@@ -13,6 +14,9 @@ import { FinalCTA } from "./components/FinalCTA";
 import { Footer } from "./components/Footer";
 import { ProductPage } from "./pages/ProductPage";
 import { CartPage } from "./pages/CartPage";
+import { BlogsPage } from "./pages/BlogsPage";
+import { BlogPage } from "./pages/BlogPage";
+import { PoliciesPage } from "./pages/PoliciesPage";
 
 export default function App() {
   return (
@@ -39,6 +43,9 @@ export default function App() {
         />
         <Route path="/info" element={<ProductPage />} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/blogs" element={<BlogsPage />} />
+        <Route path="/blogs/:slug" element={<BlogPage />} />
+        <Route path="/policies" element={<PoliciesPage />} />
       </Routes>
     </div>
   );

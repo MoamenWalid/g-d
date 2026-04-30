@@ -19,8 +19,9 @@ const footerLinks = {
     { label: "أسئلة شائعة", href: "#faq" },
     { label: "تواصل معنا", href: "#contact" },
     { label: "محادثة واتساب", href: "https://wa.me/966500000000" },
-    { label: "سياسة الخصوصية", href: "#" },
-    { label: "شروط الخدمة", href: "#" },
+    { label: "سياسة الخصوصية", href: "/policies#privacy" },
+    { label: "شروط الخدمة", href: "/policies#terms" },
+    { label: "سياسة الاسترجاع", href: "/policies#refund" },
   ],
 };
 

@@ -17,10 +17,12 @@ import { CartPage } from "./pages/CartPage";
 import { BlogsPage } from "./pages/BlogsPage";
 import { BlogPage } from "./pages/BlogPage";
 import { PoliciesPage } from "./pages/PoliciesPage";
+import { CategoryPage } from "./pages/CategoryPage";
+import { HomeThemeProvider } from "./context/HomeThemeContext";
 
 export default function App() {
   return (
-    <div style={{ fontFamily: "'Cairo', sans-serif", background: "#F8F9FC" }}>
+    <HomeThemeProvider>
       <Routes>
         <Route
           path="/"
@@ -46,7 +48,8 @@ export default function App() {
         <Route path="/blogs" element={<BlogsPage />} />
         <Route path="/blogs/:slug" element={<BlogPage />} />
         <Route path="/policies" element={<PoliciesPage />} />
+        <Route path="/category" element={<CategoryPage />} />
       </Routes>
-    </div>
+    </HomeThemeProvider>
   );
 }

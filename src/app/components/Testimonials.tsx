@@ -37,9 +37,9 @@ function StarRating({ count }: { count: number }) {
       {[1, 2, 3, 4, 5].map((s) => (
         <Star
           key={s}
-          className="w-4 h-4"
-          style={{ color: s <= count ? "#fdcb6e" : "#dfe6e9" }}
-          fill={s <= count ? "#fdcb6e" : "none"}
+          className="size-4"
+          style={{ color: s <= count ? "var(--home-star)" : "var(--home-star-empty)" }}
+          fill={s <= count ? "var(--home-star)" : "none"}
         />
       ))}
     </div>
@@ -48,33 +48,28 @@ function StarRating({ count }: { count: number }) {
 
 export function Testimonials() {
   return (
-    <section
-      className="py-24 relative overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #1a0533 0%, #2d1b69 50%, #0d2b52 100%)" }}
-    >
-      {/* Background decor */}
+    <section className="relative overflow-hidden py-24" style={{ background: "var(--home-night-section-bg)" }}>
       <div
-        className="absolute top-0 right-0 w-72 h-72 rounded-full opacity-15 blur-3xl"
-        style={{ background: "radial-gradient(circle, #6C5CE7, transparent)" }}
+        className="absolute top-0 right-0 h-72 w-72 rounded-full opacity-15 blur-3xl"
+        style={{ background: "var(--home-hero-blob-purple)" }}
       />
       <div
-        className="absolute bottom-0 left-0 w-72 h-72 rounded-full opacity-15 blur-3xl"
-        style={{ background: "radial-gradient(circle, #00CEC9, transparent)" }}
+        className="absolute bottom-0 left-0 h-72 w-72 rounded-full opacity-15 blur-3xl"
+        style={{ background: "var(--home-hero-blob-teal)" }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mb-16 text-center">
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 text-sm font-semibold border"
+            className="mb-4 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold"
             style={{
               background: "rgba(255,255,255,0.08)",
               borderColor: "rgba(255,255,255,0.15)",
-              color: "#00CEC9",
+              color: "var(--home-brand-secondary)",
               fontFamily: "'Cairo', sans-serif",
             }}
           >
-            <Star className="w-4 h-4" fill="#00CEC9" />
+            <Star className="size-4" fill="var(--home-brand-secondary)" />
             آراء العملاء
           </div>
           <h2
@@ -86,20 +81,22 @@ export function Testimonials() {
             }}
           >
             ماذا يقول{" "}
-            <span style={{ background: "linear-gradient(135deg, #a29bfe, #00CEC9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span
+              style={{
+                background: "linear-gradient(135deg, var(--home-brand-muted), var(--home-brand-secondary))",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               عملاؤنا
             </span>
           </h2>
-          <p
-            className="max-w-xl mx-auto"
-            style={{ color: "rgba(255,255,255,0.65)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}
-          >
+          <p className="mx-auto max-w-xl" style={{ color: "var(--home-text-inverse-muted)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}>
             أصحاب متاجر حقيقيون. نتائج حقيقية. اكتشف لماذا يثق بنا أكثر من 200 عمل تجاري.
           </p>
         </div>
 
-        {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
           {testimonials.map((t, i) => (
             <motion.div
               key={t.id}
@@ -107,35 +104,14 @@ export function Testimonials() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.15, duration: 0.7 }}
-              className="rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1"
-              style={{
-                background: "rgba(255,255,255,0.07)",
-                backdropFilter: "blur(16px)",
-                border: "1px solid rgba(255,255,255,0.12)",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.12)";
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(108,92,231,0.4)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = "0 16px 48px rgba(108,92,231,0.2)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,0.07)";
-                (e.currentTarget as HTMLDivElement).style.borderColor = "rgba(255,255,255,0.12)";
-                (e.currentTarget as HTMLDivElement).style.boxShadow = "none";
-              }}
+              className="home-testimonial-card rounded-3xl p-6 transition-all duration-300 hover:-translate-y-1"
             >
-              {/* Quote icon */}
-              <Quote
-                className="w-8 h-8 mb-4"
-                style={{ color: "rgba(108,92,231,0.6)" }}
-              />
+              <Quote className="mb-4 size-8" style={{ color: "var(--home-night-quote)" }} />
 
-              {/* Stars */}
               <div className="mb-4">
                 <StarRating count={t.rating} />
               </div>
 
-              {/* Review */}
               <p
                 className="mb-6 flex-1"
                 style={{
@@ -148,33 +124,29 @@ export function Testimonials() {
                 "{t.review}"
               </p>
 
-              {/* Client */}
-              <div className="flex items-center gap-3 pt-4 border-t" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
+              <div className="flex items-center gap-3 border-t pt-4" style={{ borderColor: "rgba(255,255,255,0.1)" }}>
                 <img
                   src={t.image}
                   alt={t.name}
-                  className="w-11 h-11 rounded-full object-cover border-2"
+                  className="size-11 rounded-full border-2 object-cover"
                   style={{ borderColor: "rgba(108,92,231,0.5)" }}
                 />
                 <div>
                   <div
-                    className="font-semibold text-white flex items-center gap-2"
+                    className="flex items-center gap-2 font-semibold text-white"
                     style={{ fontFamily: "'Cairo', sans-serif", fontSize: "0.9rem" }}
                   >
                     {t.name}
                     {t.verified && (
                       <span
-                        className="text-xs px-2 py-0.5 rounded-full"
-                        style={{ background: "rgba(0,206,201,0.2)", color: "#00CEC9" }}
+                        className="rounded-full px-2 py-0.5 text-xs"
+                        style={{ background: "rgba(0,206,201,0.2)", color: "var(--home-brand-secondary)" }}
                       >
                         ✓ موثق
                       </span>
                     )}
                   </div>
-                  <div
-                    className="text-xs"
-                    style={{ color: "rgba(255,255,255,0.5)", fontFamily: "'Cairo', sans-serif" }}
-                  >
+                  <div className="text-xs" style={{ color: "var(--home-text-inverse-subtle)", fontFamily: "'Cairo', sans-serif" }}>
                     {t.role}
                   </div>
                 </div>
@@ -183,13 +155,12 @@ export function Testimonials() {
           ))}
         </div>
 
-        {/* Overall rating summary */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4, duration: 0.7 }}
-          className="mt-12 text-center flex flex-wrap justify-center gap-8"
+          className="mt-12 flex flex-wrap justify-center gap-8 text-center"
         >
           {[
             { value: "4.9", label: "متوسط التقييم" },
@@ -197,16 +168,10 @@ export function Testimonials() {
             { value: "98%", label: "يوصون بنا" },
           ].map((stat) => (
             <div key={stat.label} className="flex flex-col items-center">
-              <span
-                className="text-4xl font-black text-white"
-                style={{ fontFamily: "'Cairo', sans-serif" }}
-              >
+              <span className="text-4xl font-black text-white" style={{ fontFamily: "'Cairo', sans-serif" }}>
                 {stat.value}
               </span>
-              <span
-                className="text-sm mt-1"
-                style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Cairo', sans-serif" }}
-              >
+              <span className="mt-1 text-sm" style={{ color: "var(--home-text-inverse-subtle)", fontFamily: "'Cairo', sans-serif" }}>
                 {stat.label}
               </span>
             </div>

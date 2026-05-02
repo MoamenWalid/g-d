@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import React, { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { motion } from "motion/react";
 import { Link } from "react-router";
 import { ChevronLeft, Home, ShoppingBag } from "lucide-react";
@@ -9,6 +9,7 @@ import { ProductActions } from "../components/product/ProductActions";
 import { ProductTabs } from "../components/product/ProductTabs";
 import { RelatedProducts } from "../components/product/RelatedProducts";
 import { StickyCart } from "../components/product/StickyCart";
+import { HomeThemeToggle } from "../components/HomeThemeToggle";
 
 // ─── Fake product data (Salla-compatible structure) ───────────────────────────
 
@@ -191,14 +192,12 @@ export function ProductPage() {
 
   const ctaTriggerRef = useRef<HTMLDivElement>(null);
 
-  // Compute current price based on selected size
   const currentPrice = useMemo(() => {
     const sizeModifier =
       product.sizes.find((s) => s.value === selectedSize)?.priceAdd ?? 0;
     return product.basePrice + sizeModifier;
   }, [selectedSize]);
 
-  // IntersectionObserver: show sticky when CTA scrolls off-screen
   useEffect(() => {
     const el = ctaTriggerRef.current;
     if (!el) return;
@@ -219,85 +218,85 @@ export function ProductPage() {
   return (
     <div
       dir="rtl"
-      style={{ background: "#F8F9FC", minHeight: "100vh", fontFamily: "'Cairo', sans-serif" }}
+      className="min-h-screen"
+      style={{
+        backgroundColor: "var(--home-shell-bg)",
+        color: "var(--home-text-primary)",
+        fontFamily: "'Cairo', sans-serif",
+      }}
     >
-      {/* ── Page Header ────────────────────────────────────────────────── */}
       <header
         className="sticky top-0 z-40"
         style={{
-          background: "rgba(255,255,255,0.97)",
+          background: "var(--home-pdp-header-bg)",
           backdropFilter: "blur(12px)",
-          borderBottom: "1px solid rgba(108,92,231,0.08)",
-          boxShadow: "0 2px 16px rgba(108,92,231,0.06)",
+          borderBottom: "1px solid var(--home-pdp-header-border)",
+          boxShadow: "var(--home-pdp-header-shadow)",
         }}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            {/* Logo */}
-            <Link to="/" onClick={scrollToTop} className="flex items-center gap-2 flex-shrink-0">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="flex h-16 items-center justify-between gap-2 sm:gap-4">
+            <Link to="/" onClick={scrollToTop} className="flex flex-shrink-0 items-center gap-2">
               <img src="/imgs/logo.png" alt="شعار المتجر" className="h-8 w-auto" />
             </Link>
 
-            {/* Breadcrumb */}
             <nav
-              className="hidden md:flex items-center gap-1 text-xs flex-1 justify-center"
+              className="hidden flex-1 items-center justify-center gap-1 text-xs md:flex"
               aria-label="مسار التنقل"
               style={{ fontFamily: "'Cairo', sans-serif" }}
             >
               <Link
                 to="/"
-                className="flex items-center gap-1 transition-colors duration-150 hover:opacity-70"
-                style={{ color: "#a0aab4" }}
+                className="flex items-center gap-1 transition-opacity duration-150 hover:opacity-70"
+                style={{ color: "var(--home-text-muted)" }}
               >
-                <Home className="w-3.5 h-3.5" />
+                <Home className="h-3.5 w-3.5" />
                 الرئيسية
               </Link>
-              <ChevronLeft className="w-3 h-3" style={{ color: "#d1d5db" }} />
-              <span style={{ color: "#a0aab4" }}>{product.category.name}</span>
-              <ChevronLeft className="w-3 h-3" style={{ color: "#d1d5db" }} />
+              <ChevronLeft className="h-3 w-3" style={{ color: "var(--home-breadcrumb-chevron)" }} />
+              <span style={{ color: "var(--home-text-muted)" }}>{product.category.name}</span>
+              <ChevronLeft className="h-3 w-3" style={{ color: "var(--home-breadcrumb-chevron)" }} />
               <span
-                className="font-semibold truncate max-w-[200px]"
-                style={{ color: "#2D3436" }}
+                className="max-w-[200px] truncate font-semibold"
+                style={{ color: "var(--home-text-primary)" }}
               >
                 {product.name}
               </span>
             </nav>
 
-            {/* Cart icon */}
-            <button
-              className="relative flex items-center gap-2 px-4 py-2 rounded-xl transition-all duration-200"
-              style={{
-                background: "rgba(108,92,231,0.08)",
-                color: "#6C5CE7",
-              }}
-              aria-label={`السلة: ${cartCount} منتج`}
-            >
-              <ShoppingBag className="w-5 h-5" />
-              <span
-                className="text-sm font-semibold hidden sm:inline"
-                style={{ fontFamily: "'Cairo', sans-serif" }}
+            <div className="flex flex-shrink-0 items-center gap-2 sm:gap-3">
+              <HomeThemeToggle />
+              <button
+                type="button"
+                className="relative flex items-center gap-2 rounded-xl px-3 py-2 transition-all duration-200 sm:px-4"
+                style={{
+                  background: "var(--home-pdp-cart-chip-bg)",
+                  color: "var(--home-brand)",
+                }}
+                aria-label={`السلة: ${cartCount} منتج`}
               >
-                السلة
-              </span>
-              {cartCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold text-white"
-                  style={{ background: "linear-gradient(135deg, #6C5CE7, #00CEC9)" }}
-                >
-                  {cartCount}
-                </motion.span>
-              )}
-            </button>
+                <ShoppingBag className="h-5 w-5" />
+                <span className="hidden text-sm font-semibold sm:inline" style={{ fontFamily: "'Cairo', sans-serif" }}>
+                  السلة
+                </span>
+                {cartCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -left-1.5 -top-1.5 flex h-5 w-5 items-center justify-center rounded-full text-xs font-bold text-white"
+                    style={{ background: "var(--home-gradient-brand)" }}
+                  >
+                    {cartCount}
+                  </motion.span>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-32">
-        {/* ── Two-column product layout ──────────────────────────────── */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 mb-16">
-          {/* Gallery — sticky on desktop */}
+      <main className="mx-auto max-w-7xl px-4 py-8 pb-32 sm:px-6 lg:px-8">
+        <div className="mb-16 grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -307,7 +306,6 @@ export function ProductPage() {
             <ProductGallery images={product.images} />
           </motion.div>
 
-          {/* Info + Actions */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -322,7 +320,6 @@ export function ProductPage() {
               reviewCount={product.reviewCount}
               soldCount={product.soldCount}
               shortDesc={product.shortDesc}
-              basePrice={product.basePrice}
               originalPrice={product.originalPrice}
               discount={product.discount}
               sizes={product.sizes}
@@ -335,13 +332,8 @@ export function ProductPage() {
               onConcentrationChange={setSelectedConcentration}
             />
 
-            {/* Divider */}
-            <div
-              className="border-t"
-              style={{ borderColor: "rgba(108,92,231,0.08)" }}
-            />
+            <div className="border-t" style={{ borderColor: "var(--home-pdp-header-border)" }} />
 
-            {/* Ref wrapper — IntersectionObserver watches this to show sticky cart */}
             <div ref={ctaTriggerRef}>
               <ProductActions
                 currentPrice={currentPrice}
@@ -356,7 +348,6 @@ export function ProductPage() {
           </motion.div>
         </div>
 
-        {/* ── Tabs: Description / Details / Reviews ───────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -373,24 +364,22 @@ export function ProductPage() {
           />
         </motion.div>
 
-        {/* ── Related products ─────────────────────────────────────────── */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="py-8 px-6 rounded-3xl"
+          className="rounded-3xl px-6 py-8"
           style={{
-            background: "white",
-            boxShadow: "0 4px 24px rgba(108,92,231,0.06)",
-            border: "1px solid rgba(108,92,231,0.07)",
+            background: "var(--home-card-bg)",
+            boxShadow: "var(--home-card-shadow)",
+            border: "1px solid var(--home-card-border)",
           }}
         >
           <RelatedProducts products={relatedProducts} />
         </motion.div>
       </main>
 
-      {/* ── Sticky cart bar ──────────────────────────────────────────────── */}
       <StickyCart
         show={showSticky}
         productName={product.name}

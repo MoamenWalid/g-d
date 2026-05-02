@@ -45,15 +45,14 @@ export function FAQ() {
   const [openId, setOpenId] = useState<number | null>(1);
 
   return (
-    <section id="faq" className="py-24" style={{ background: "#F8F9FC" }}>
-      <div className="max-w-4xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
+    <section id="faq" className="py-24" style={{ background: "var(--home-section-muted)" }}>
+      <div className="mx-auto max-w-4xl px-6 lg:px-8">
+        <div className="mb-16 text-center">
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 text-sm font-semibold"
-            style={{ background: "rgba(108,92,231,0.1)", color: "#6C5CE7", fontFamily: "'Cairo', sans-serif" }}
+            className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
+            style={{ background: "var(--home-pill-bg)", color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}
           >
-            <HelpCircle className="w-4 h-4" />
+            <HelpCircle className="size-4" />
             أسئلة شائعة
           </div>
           <h2
@@ -62,56 +61,59 @@ export function FAQ() {
               fontFamily: "'Cairo', sans-serif",
               fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
               fontWeight: 800,
-              color: "#2D3436",
+              color: "var(--home-text-primary)",
             }}
           >
             الأسئلة{" "}
-            <span style={{ background: "linear-gradient(135deg, #6C5CE7, #00CEC9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span
+              style={{
+                background: "var(--home-gradient-text)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               الشائعة
             </span>
           </h2>
-          <p
-            className="max-w-lg mx-auto"
-            style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}
-          >
+          <p className="mx-auto max-w-lg" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}>
             كل ما تحتاج معرفته قبل البدء. لم تجد إجابتك؟ تواصل معنا مباشرة.
           </p>
         </div>
 
-        {/* Accordion */}
         <div className="space-y-3">
           {faqs.map((faq) => {
             const isOpen = openId === faq.id;
             return (
               <div
                 key={faq.id}
-                className="rounded-2xl overflow-hidden transition-all duration-300"
+                className="overflow-hidden rounded-2xl transition-all duration-300"
                 style={{
-                  background: "white",
-                  border: isOpen ? "1px solid rgba(108,92,231,0.3)" : "1px solid rgba(108,92,231,0.1)",
-                  boxShadow: isOpen ? "0 8px 32px rgba(108,92,231,0.12)" : "0 2px 8px rgba(0,0,0,0.04)",
+                  background: "var(--home-faq-item-bg)",
+                  border: isOpen ? `1px solid var(--home-faq-item-border-open)` : `1px solid var(--home-faq-item-border)`,
+                  boxShadow: isOpen ? "var(--home-faq-item-shadow-open)" : "var(--home-faq-item-shadow)",
                 }}
               >
                 <button
-                  className="w-full flex items-center justify-between p-6 text-right transition-colors duration-200"
+                  type="button"
+                  className="flex w-full items-center justify-between p-6 text-right transition-colors duration-200"
                   onClick={() => setOpenId(isOpen ? null : faq.id)}
                 >
                   <div className="flex items-center gap-4">
                     <div
-                      className="w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 text-sm font-bold transition-all duration-300"
+                      className="flex size-8 flex-shrink-0 items-center justify-center rounded-xl text-sm font-bold transition-all duration-300"
                       style={{
-                        background: isOpen ? "linear-gradient(135deg, #6C5CE7, #00CEC9)" : "#F8F9FC",
-                        color: isOpen ? "white" : "#6C5CE7",
+                        background: isOpen ? "var(--home-gradient-brand)" : "var(--home-faq-id-bg)",
+                        color: isOpen ? "var(--home-text-inverse)" : "var(--home-brand)",
                         fontFamily: "'Cairo', sans-serif",
                       }}
                     >
                       {faq.id}
                     </div>
                     <span
-                      className="font-semibold pl-4"
+                      className="pl-4 font-semibold"
                       style={{
                         fontFamily: "'Cairo', sans-serif",
-                        color: isOpen ? "#6C5CE7" : "#2D3436",
+                        color: isOpen ? "var(--home-brand)" : "var(--home-text-primary)",
                         fontSize: "1rem",
                       }}
                     >
@@ -119,15 +121,15 @@ export function FAQ() {
                     </span>
                   </div>
                   <div
-                    className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300"
+                    className="flex size-8 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300"
                     style={{
-                      background: isOpen ? "rgba(108,92,231,0.1)" : "#F8F9FC",
+                      background: isOpen ? "var(--home-faq-accent-open-bg)" : "var(--home-faq-id-bg)",
                       transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
                     }}
                   >
                     <ChevronDown
-                      className="w-4 h-4"
-                      style={{ color: isOpen ? "#6C5CE7" : "#a0aab4" }}
+                      className="size-4"
+                      style={{ color: isOpen ? "var(--home-brand)" : "var(--home-faq-chevron-muted)" }}
                     />
                   </div>
                 </button>
@@ -142,9 +144,9 @@ export function FAQ() {
                       transition={{ duration: 0.3, ease: "easeInOut" }}
                     >
                       <div
-                        className="px-6 pb-6 mr-12"
+                        className="mr-12 px-6 pb-6"
                         style={{
-                          color: "#636e72",
+                          color: "var(--home-text-secondary)",
                           fontFamily: "'Cairo', sans-serif",
                           lineHeight: 1.8,
                           fontSize: "0.95rem",
@@ -160,18 +162,18 @@ export function FAQ() {
           })}
         </div>
 
-        <div className="text-center mt-10">
-          <p style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif", marginBottom: "12px" }}>
+        <div className="mt-10 text-center">
+          <p style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif", marginBottom: "12px" }}>
             لا تزال لديك أسئلة؟
           </p>
           <a
             href="https://wa.me/966500000000"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-white font-semibold transition-all duration-300 hover:scale-105"
+            className="inline-flex items-center gap-2 rounded-xl px-6 py-3 font-semibold text-white transition-all duration-300 hover:scale-105"
             style={{
-              background: "#25D366",
-              boxShadow: "0 6px 20px rgba(37,211,102,0.35)",
+              background: "var(--home-whatsapp)",
+              boxShadow: "var(--home-whatsapp-shadow)",
               fontFamily: "'Cairo', sans-serif",
             }}
           >

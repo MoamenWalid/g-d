@@ -105,13 +105,6 @@ const projects = [
   },
 ];
 
-const tagColors: Record<string, string> = {
-  تصميم: "#6C5CE7",
-  "هوية بصرية": "#fd79a8",
-  تطوير: "#fdcb6e",
-  إعداد: "#00CEC9",
-};
-
 export function Portfolio() {
   const [visibleCount, setVisibleCount] = useState(INITIAL_COUNT);
 
@@ -123,15 +116,14 @@ export function Portfolio() {
   };
 
   return (
-    <section id="portfolio" className="py-24" style={{ background: "#F8F9FC" }}>
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-16">
+    <section id="portfolio" className="py-24" style={{ background: "var(--home-section-muted)" }}>
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <div className="mb-16 text-center">
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 text-sm font-semibold"
-            style={{ background: "rgba(108,92,231,0.1)", color: "#6C5CE7", fontFamily: "'Cairo', sans-serif" }}
+            className="mb-4 inline-flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold"
+            style={{ background: "var(--home-pill-bg)", color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="size-4" />
             أعمال مميزة
           </div>
           <h2
@@ -140,24 +132,26 @@ export function Portfolio() {
               fontFamily: "'Cairo', sans-serif",
               fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
               fontWeight: 800,
-              color: "#2D3436",
+              color: "var(--home-text-primary)",
             }}
           >
             معرض{" "}
-            <span style={{ background: "linear-gradient(135deg, #6C5CE7, #00CEC9)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+            <span
+              style={{
+                background: "var(--home-gradient-text)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
               أعمالنا
             </span>
           </h2>
-          <p
-            className="max-w-xl mx-auto"
-            style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}
-          >
+          <p className="mx-auto max-w-xl" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}>
             مجموعة مختارة من أعمالنا الأخيرة — متاجر حقيقية، نتائج حقيقية.
           </p>
         </div>
 
-        {/* Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {visible.map((project, i) => (
             <motion.div
               key={project.id}
@@ -165,60 +159,49 @@ export function Portfolio() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="group relative rounded-3xl overflow-hidden cursor-pointer"
+              className="group relative cursor-pointer overflow-hidden rounded-3xl"
               style={{
-                boxShadow: "0 4px 20px rgba(0,0,0,0.08)",
+                boxShadow: "var(--home-portfolio-tile-shadow)",
                 aspectRatio: "3/4",
               }}
             >
-              {/* Image */}
               <img
                 src={project.image}
                 alt={project.name}
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
               />
 
-              {/* Overlay on hover */}
               <div
-                className="absolute inset-0 flex flex-col justify-end p-5 opacity-0 group-hover:opacity-100 transition-all duration-400"
-                style={{
-                  background: "linear-gradient(to top, rgba(20,10,40,0.95) 0%, rgba(20,10,40,0.4) 60%, transparent 100%)",
-                }}
+                className="absolute inset-0 flex flex-col justify-end p-5 opacity-0 transition-all duration-400 group-hover:opacity-100"
+                style={{ background: "var(--home-portfolio-overlay)" }}
               >
-                {/* Tag */}
                 <div
-                  className="inline-flex self-start px-3 py-1 rounded-full text-xs font-bold text-white mb-3"
-                  style={{ background: tagColors[project.tag] || "#6C5CE7" }}
+                  className="mb-3 inline-flex self-start rounded-full px-3 py-1 text-xs font-bold text-white"
+                  style={{ background: project.color }}
                 >
                   {project.tag}
                 </div>
 
-                <h3
-                  className="text-white mb-1"
-                  style={{ fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: "1rem" }}
-                >
+                <h3 className="mb-1 text-white" style={{ fontFamily: "'Cairo', sans-serif", fontWeight: 700, fontSize: "1rem" }}>
                   {project.name}
                 </h3>
-                <p
-                  className="text-sm"
-                  style={{ color: "rgba(255,255,255,0.7)", fontFamily: "'Cairo', sans-serif" }}
-                >
+                <p className="text-sm" style={{ color: "var(--home-text-inverse-muted)", fontFamily: "'Cairo', sans-serif" }}>
                   {project.type}
                 </p>
 
                 <button
-                  className="mt-3 self-start flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold text-white transition-all duration-200 hover:scale-105"
-                  style={{ background: "rgba(108,92,231,0.7)", backdropFilter: "blur(8px)" }}
+                  type="button"
+                  className="mt-3 flex items-center gap-2 self-start rounded-xl px-4 py-2 text-sm font-semibold text-white transition-all duration-200 hover:scale-105"
+                  style={{ background: "var(--home-portfolio-btn-bg)", backdropFilter: "blur(8px)" }}
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="size-4" />
                   عرض المشروع
                 </button>
               </div>
 
-              {/* Tag always visible — top-right in RTL */}
               <div
-                className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold text-white group-hover:opacity-0 transition-opacity duration-300"
-                style={{ background: `${tagColors[project.tag]}CC` }}
+                className="absolute top-4 right-4 rounded-full px-3 py-1 text-xs font-bold text-white transition-opacity duration-300 group-hover:opacity-0"
+                style={{ background: `color-mix(in srgb, ${project.color} 88%, transparent)` }}
               >
                 {project.tag}
               </div>
@@ -234,21 +217,22 @@ export function Portfolio() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 10 }}
               transition={{ duration: 0.3 }}
-              className="text-center mt-10"
+              className="mt-10 text-center"
             >
               <button
+                type="button"
                 onClick={handleLoadMore}
-                className="inline-flex items-center gap-2 px-8 py-3.5 rounded-2xl text-sm font-semibold transition-all duration-300 hover:scale-105 border"
+                className="inline-flex items-center gap-2 rounded-2xl border px-8 py-3.5 text-sm font-semibold transition-all duration-300 hover:scale-105"
                 style={{
-                  color: "#6C5CE7",
-                  borderColor: "rgba(108,92,231,0.3)",
-                  background: "white",
+                  color: "var(--home-brand)",
+                  borderColor: "var(--home-loadmore-border)",
+                  background: "var(--home-card-bg)",
                   fontFamily: "'Cairo', sans-serif",
-                  boxShadow: "0 4px 16px rgba(108,92,231,0.12)",
+                  boxShadow: "var(--home-loadmore-shadow)",
                   cursor: "pointer",
                 }}
               >
-                <ChevronDown className="w-4 h-4" />
+                <ChevronDown className="size-4" />
                 عرض المزيد
               </button>
             </motion.div>

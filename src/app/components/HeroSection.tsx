@@ -14,24 +14,22 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #1a0533 0%, #2d1b69 30%, #1a3a6e 70%, #0d2b52 100%)" }}
+      className="relative flex min-h-screen items-center overflow-hidden"
+      style={{ background: "var(--home-hero-bg)" }}
     >
-      {/* Background decorative blobs */}
       <div
-        className="absolute top-0 left-0 w-96 h-96 rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(circle, #6C5CE7, transparent)" }}
+        className="absolute top-0 left-0 h-96 w-96 rounded-full opacity-20 blur-3xl"
+        style={{ background: "var(--home-hero-blob-purple)" }}
       />
       <div
-        className="absolute bottom-0 right-0 w-96 h-96 rounded-full opacity-20 blur-3xl"
-        style={{ background: "radial-gradient(circle, #00CEC9, transparent)" }}
+        className="absolute right-0 bottom-0 h-96 w-96 rounded-full opacity-20 blur-3xl"
+        style={{ background: "var(--home-hero-blob-teal)" }}
       />
       <div
-        className="absolute top-1/2 left-1/2 w-64 h-64 rounded-full opacity-10 blur-2xl -translate-x-1/2 -translate-y-1/2"
-        style={{ background: "radial-gradient(circle, #ffffff, transparent)" }}
+        className="absolute top-1/2 left-1/2 h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10 blur-2xl"
+        style={{ background: "var(--home-hero-blob-white)" }}
       />
 
-      {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-5"
         style={{
@@ -39,37 +37,34 @@ export function HeroSection() {
         }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-6 lg:px-8 pt-28 pb-20 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          {/* Right Content (first in DOM = right in RTL) */}
+      <div className="relative mx-auto w-full max-w-7xl px-6 pt-28 pb-20 lg:px-8">
+        <div className="grid items-center gap-16 lg:grid-cols-2">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 border"
+              className="mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-2"
               style={{
-                background: "rgba(108,92,231,0.15)",
-                borderColor: "rgba(108,92,231,0.3)",
+                background: "var(--home-hero-badge-bg)",
+                borderColor: "var(--home-hero-badge-border)",
               }}
             >
-              <div className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00CEC9" }} />
-              <span className="text-sm font-medium" style={{ color: "#00CEC9", fontFamily: "'Cairo', sans-serif" }}>
+              <div className="size-2 animate-pulse rounded-full" style={{ background: "var(--home-brand-secondary)" }} />
+              <span className="text-sm font-medium" style={{ color: "var(--home-brand-secondary)", fontFamily: "'Cairo', sans-serif" }}>
                 الخبراء الأوائل في منصة سلة
               </span>
             </motion.div>
 
-            {/* Headline */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-white mb-6"
+              className="mb-6 text-white"
               style={{
                 fontFamily: "'Cairo', sans-serif",
                 fontSize: "clamp(2.2rem, 4vw, 3.5rem)",
@@ -80,7 +75,7 @@ export function HeroSection() {
               أنشئ متجراً احترافياً{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
+                  background: "var(--home-gradient-hero-text)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -93,74 +88,71 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.8 }}
-              className="text-lg mb-10 max-w-xl"
-              style={{ color: "rgba(255,255,255,0.75)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}
+              className="mb-10 max-w-xl text-lg"
+              style={{ color: "var(--home-text-inverse-muted)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}
             >
               نتخصص في تصميم وتطوير وتفعيل متاجر سلة الاحترافية.
               من الشعارات المميزة إلى إعداد المتجر الكامل — نحوّل رؤيتك إلى عمل تجاري يحقق مبيعات عالية.
             </motion.p>
 
-            {/* CTAs */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.8 }}
-              className="flex flex-wrap gap-4 mb-14"
+              className="mb-14 flex flex-wrap gap-4"
             >
               <a
                 href="#pricing"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+                className="inline-flex items-center gap-2 rounded-2xl px-8 py-4 font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl"
                 style={{
-                  background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
-                  boxShadow: "0 8px 30px rgba(108,92,231,0.4)",
+                  background: "var(--home-gradient-brand)",
+                  boxShadow: "var(--home-cta-shadow-lg)",
                   fontFamily: "'Cairo', sans-serif",
                   fontSize: "1rem",
                 }}
               >
-                ابدأ الآن <ArrowLeft className="w-5 h-5" />
+                ابدأ الآن <ArrowLeft className="size-5" />
               </a>
               <a
                 href="#services"
-                className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl font-bold transition-all duration-300 hover:scale-105 border"
+                className="inline-flex items-center gap-2 rounded-2xl border px-8 py-4 font-bold text-white transition-all duration-300 hover:scale-105"
                 style={{
-                  color: "white",
-                  borderColor: "rgba(255,255,255,0.3)",
-                  background: "rgba(255,255,255,0.08)",
+                  borderColor: "var(--home-hero-outline-btn-border)",
+                  background: "var(--home-hero-outline-btn-bg)",
                   fontFamily: "'Cairo', sans-serif",
                   fontSize: "1rem",
                   backdropFilter: "blur(8px)",
                 }}
               >
-                <Play className="w-4 h-4" />
+                <Play className="size-4" />
                 عرض الخدمات
               </a>
             </motion.div>
 
-            {/* Stats row */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.8 }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-4"
+              className="grid grid-cols-2 gap-4 sm:grid-cols-4"
             >
-              {stats.map((stat, i) => (
+              {stats.map((stat) => (
                 <div
                   key={stat.label}
-                  className="flex flex-col items-center p-3 rounded-2xl border text-center"
+                  className="flex flex-col items-center rounded-2xl border p-3 text-center"
                   style={{
-                    background: "rgba(255,255,255,0.07)",
-                    borderColor: "rgba(255,255,255,0.12)",
+                    background: "var(--home-hero-stat-bg)",
+                    borderColor: "var(--home-hero-stat-border)",
                     backdropFilter: "blur(8px)",
                   }}
                 >
-                  <stat.icon className="w-5 h-5 mb-1" style={{ color: "#00CEC9" }} />
+                  <stat.icon className="mb-1 size-5" style={{ color: "var(--home-brand-secondary)" }} />
                   <span
                     className="font-bold"
-                    style={{ color: "white", fontFamily: "'Cairo', sans-serif", fontSize: "1.1rem" }}
+                    style={{ color: "var(--home-text-inverse)", fontFamily: "'Cairo', sans-serif", fontSize: "1.1rem" }}
                   >
                     {stat.value}
                   </span>
-                  <span className="text-xs" style={{ color: "rgba(255,255,255,0.55)", fontFamily: "'Cairo', sans-serif" }}>
+                  <span className="text-xs" style={{ color: "var(--home-text-inverse-subtle)", fontFamily: "'Cairo', sans-serif" }}>
                     {stat.label}
                   </span>
                 </div>
@@ -168,40 +160,32 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
 
-          {/* Left: Mockup (second in DOM = left in RTL) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 1, ease: "easeOut" }}
-            className="relative hidden lg:flex justify-center"
+            className="relative hidden justify-center lg:flex"
           >
-            {/* Floating decorative card */}
             <motion.div
               animate={{ y: [-8, 8, -8] }}
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               className="relative"
             >
-              {/* Main mockup */}
               <div
-                className="relative rounded-3xl overflow-hidden border"
+                className="relative max-w-full overflow-hidden rounded-3xl border"
                 style={{
-                  borderColor: "rgba(255,255,255,0.15)",
+                  borderColor: "var(--home-hero-mockup-border)",
                   boxShadow: "0 32px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(108,92,231,0.3)",
                   width: "500px",
-                  maxWidth: "100%",
                 }}
               >
-                {/* Browser chrome */}
-                <div
-                  className="flex items-center gap-2 px-4 py-3"
-                  style={{ background: "rgba(20,10,40,0.9)" }}
-                >
-                  <div className="w-3 h-3 rounded-full" style={{ background: "#ff5f57" }} />
-                  <div className="w-3 h-3 rounded-full" style={{ background: "#ffbd2e" }} />
-                  <div className="w-3 h-3 rounded-full" style={{ background: "#28ca41" }} />
+                <div className="flex items-center gap-2 px-4 py-3" style={{ background: "var(--home-hero-mockup-chrome)" }}>
+                  <div className="size-3 rounded-full" style={{ background: "#ff5f57" }} />
+                  <div className="size-3 rounded-full" style={{ background: "#ffbd2e" }} />
+                  <div className="size-3 rounded-full" style={{ background: "#28ca41" }} />
                   <div
-                    className="flex-1 mx-4 rounded-full px-4 py-1 text-xs"
-                    style={{ background: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.4)", fontFamily: "'Cairo', sans-serif" }}
+                    className="mx-4 flex-1 rounded-full px-4 py-1 text-xs"
+                    style={{ background: "var(--home-hero-mockup-url-bg)", color: "var(--home-hero-mockup-url-text)", fontFamily: "'Cairo', sans-serif" }}
                   >
                     mystore.salla.sa
                   </div>
@@ -214,70 +198,76 @@ export function HeroSection() {
                 />
               </div>
 
-              {/* Floating badge 1: Order notification — inner side (right in RTL) */}
               <motion.div
                 animate={{ y: [-4, 4, -4] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -right-10 top-16 rounded-2xl px-4 py-3 flex items-center gap-3"
+                className="absolute -right-10 top-16 flex items-center gap-3 rounded-2xl px-4 py-3"
                 style={{
-                  background: "white",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-                  border: "1px solid rgba(108,92,231,0.2)",
+                  background: "var(--home-hero-float-card-bg)",
+                  boxShadow: "var(--home-hero-float-card-shadow)",
+                  border: "1px solid var(--home-hero-float-card-border)",
                 }}
               >
                 <div
-                  className="w-9 h-9 rounded-xl flex items-center justify-center text-lg"
-                  style={{ background: "linear-gradient(135deg, #6C5CE7, #00CEC9)" }}
+                  className="flex size-9 items-center justify-center rounded-xl text-lg"
+                  style={{ background: "var(--home-gradient-brand)" }}
                 >
                   🛍️
                 </div>
                 <div>
-                  <div className="text-xs font-bold" style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}>طلب جديد!</div>
-                  <div className="text-xs" style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif" }}>349.00 ر.س</div>
+                  <div className="text-xs font-bold" style={{ color: "var(--home-hero-float-card-text)", fontFamily: "'Cairo', sans-serif" }}>
+                    طلب جديد!
+                  </div>
+                  <div className="text-xs" style={{ color: "var(--home-hero-float-card-muted)", fontFamily: "'Cairo', sans-serif" }}>
+                    349.00 ر.س
+                  </div>
                 </div>
               </motion.div>
 
-              {/* Floating badge 2: Rating — outer side (left in RTL) */}
               <motion.div
                 animate={{ y: [4, -4, 4] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                 className="absolute -left-8 bottom-20 rounded-2xl px-4 py-3"
                 style={{
-                  background: "white",
-                  boxShadow: "0 8px 32px rgba(0,0,0,0.25)",
-                  border: "1px solid rgba(0,206,201,0.2)",
+                  background: "var(--home-hero-float-card-bg)",
+                  boxShadow: "var(--home-hero-float-card-shadow)",
+                  border: "1px solid var(--home-hero-float-alt-border)",
                 }}
               >
-                <div className="flex items-center gap-1 mb-1">
+                <div className="mb-1 flex items-center gap-1">
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} className="text-sm">⭐</span>
+                    <span key={s} className="text-sm">
+                      ⭐
+                    </span>
                   ))}
                 </div>
-                <div className="text-xs font-bold" style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}>+38 تقييم</div>
+                <div className="text-xs font-bold" style={{ color: "var(--home-hero-float-card-text)", fontFamily: "'Cairo', sans-serif" }}>
+                  +38 تقييم
+                </div>
               </motion.div>
 
-              {/* Floating badge 3: Growth — outer top (left in RTL) */}
               <motion.div
                 animate={{ y: [-6, 6, -6] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                className="absolute -left-4 -top-6 rounded-2xl px-4 py-3 flex items-center gap-2"
+                className="absolute -top-6 -left-4 flex items-center gap-2 rounded-2xl px-4 py-3"
                 style={{
-                  background: "linear-gradient(135deg, #6C5CE7, #4f3ac7)",
+                  background: "var(--home-hero-growth-bg)",
                   boxShadow: "0 8px 32px rgba(108,92,231,0.4)",
                 }}
               >
-                <TrendingUp className="w-4 h-4 text-white" />
-                <span className="text-sm font-bold text-white" style={{ fontFamily: "'Cairo', sans-serif" }}>+127% مبيعات</span>
+                <TrendingUp className="size-4 text-white" />
+                <span className="text-sm font-bold text-white" style={{ fontFamily: "'Cairo', sans-serif" }}>
+                  +127% مبيعات
+                </span>
               </motion.div>
             </motion.div>
           </motion.div>
         </div>
       </div>
 
-      {/* Bottom wave */}
-      <div className="absolute bottom-0 left-0 right-0">
-        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#F8F9FC" />
+      <div className="absolute right-0 bottom-0 left-0">
+        <svg viewBox="0 0 1440 80" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" className="w-full">
+          <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="var(--home-hero-wave-fill)" />
         </svg>
       </div>
     </section>

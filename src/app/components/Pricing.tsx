@@ -204,19 +204,15 @@ function FeatureTooltip({
                      data-[state=closed]:animate-out data-[state=closed]:fade-out-0
                      data-[state=closed]:zoom-out-95 data-[side=top]:slide-in-from-bottom-2"
           style={{
-            background: "linear-gradient(135deg, #1a0533 0%, #2d1b69 100%)",
-            color: "rgba(255,255,255,0.88)",
+            background: "var(--home-tooltip-bg)",
+            color: "var(--home-tooltip-text)",
             fontFamily: "'Cairo', sans-serif",
             direction: "rtl",
-            border: "1px solid rgba(108,92,231,0.35)",
+            border: "1px solid var(--home-tooltip-border)",
           }}
         >
           {content}
-          <TooltipPrimitive.Arrow
-            className="fill-[#1a0533]"
-            width={10}
-            height={5}
-          />
+          <TooltipPrimitive.Arrow className="fill-[var(--home-tooltip-arrow)]" width={10} height={5} />
         </TooltipPrimitive.Content>
       </TooltipPrimitive.Portal>
     </TooltipPrimitive.Root>
@@ -260,7 +256,7 @@ function FeatureItem({
       >
         <Check
           className="w-3 h-3"
-          style={{ color: highlighted ? "#00CEC9" : color }}
+          style={{ color: highlighted ? "var(--home-brand-secondary)" : color }}
         />
       </div>
 
@@ -268,7 +264,7 @@ function FeatureItem({
       <span
         className="text-sm flex-1"
         style={{
-          color: highlighted ? "rgba(255,255,255,0.85)" : "#4a5568",
+          color: highlighted ? "var(--home-pricing-highlight-feature)" : "var(--home-pricing-feature-muted)",
           fontFamily: "'Cairo', sans-serif",
           lineHeight: 1.5,
         }}
@@ -293,11 +289,11 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
 
   const cardShadow = cardHovered
     ? plan.highlighted
-      ? "0 32px 80px rgba(108,92,231,0.45)"
-      : "0 16px 48px rgba(0,0,0,0.13)"
+      ? "var(--home-pricing-highlight-shadow-hover)"
+      : "var(--home-pricing-card-shadow-hover)"
     : plan.highlighted
-    ? "0 24px 60px rgba(108,92,231,0.35)"
-    : "0 4px 20px rgba(0,0,0,0.06)";
+      ? "var(--home-pricing-highlight-shadow)"
+      : "var(--home-pricing-card-shadow)";
 
   return (
     <motion.div
@@ -310,12 +306,10 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
         plan.highlighted ? "md:-mt-5 md:mb-5" : ""
       }`}
       style={{
-        background: plan.highlighted
-          ? "linear-gradient(160deg, #1a0533, #2d1b69, #0d2b52)"
-          : "white",
+        background: plan.highlighted ? "var(--home-pricing-highlight-bg)" : "var(--home-card-bg)",
         border: plan.highlighted
-          ? "1.5px solid rgba(108,92,231,0.5)"
-          : "1px solid rgba(108,92,231,0.1)",
+          ? "1.5px solid var(--home-pricing-highlight-border)"
+          : "1px solid var(--home-pricing-muted-plan-border)",
         boxShadow: cardShadow,
         transition: "box-shadow 0.3s ease, transform 0.3s ease",
       }}
@@ -357,7 +351,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
               fontFamily: "'Cairo', sans-serif",
               fontWeight: 700,
               fontSize: "1.15rem",
-              color: plan.highlighted ? "white" : "#2D3436",
+              color: plan.highlighted ? "var(--home-text-inverse)" : "var(--home-pricing-plan-title)",
             }}
           >
             {plan.name}
@@ -366,7 +360,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
             style={{
               fontFamily: "'Cairo', sans-serif",
               fontSize: "0.78rem",
-              color: plan.highlighted ? "rgba(255,255,255,0.55)" : "#636e72",
+              color: plan.highlighted ? "var(--home-text-inverse-subtle)" : "var(--home-pricing-plan-desc)",
               lineHeight: 1.45,
             }}
           >
@@ -379,9 +373,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
       <div
         className="mb-6 pb-6 border-b"
         style={{
-          borderColor: plan.highlighted
-            ? "rgba(255,255,255,0.12)"
-            : "rgba(108,92,231,0.1)",
+          borderColor: plan.highlighted ? "var(--home-pricing-highlight-divider)" : "var(--home-pricing-muted-plan-border)",
         }}
       >
         <div className="flex items-baseline gap-1">
@@ -392,7 +384,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
               fontSize: "2.75rem",
               lineHeight: 1,
               letterSpacing: "-1px",
-              color: plan.highlighted ? "white" : "#2D3436",
+              color: plan.highlighted ? "var(--home-text-inverse)" : "var(--home-pricing-plan-title)",
             }}
           >
             {plan.price}
@@ -402,7 +394,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
               fontFamily: "'Cairo', sans-serif",
               fontWeight: 700,
               fontSize: "0.95rem",
-              color: plan.highlighted ? "rgba(255,255,255,0.7)" : plan.color,
+              color: plan.highlighted ? "var(--home-text-inverse-muted)" : plan.color,
               marginRight: "3px",
             }}
           >
@@ -413,7 +405,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
           className="mt-1.5 text-xs"
           style={{
             fontFamily: "'Cairo', sans-serif",
-            color: plan.highlighted ? "rgba(255,255,255,0.38)" : "#a0aab4",
+            color: plan.highlighted ? "var(--home-pricing-highlight-meta)" : "var(--home-pricing-plan-muted)",
           }}
         >
           {plan.period}
@@ -470,7 +462,7 @@ function PricingCard({ plan, index }: { plan: Plan; index: number }) {
 export function Pricing() {
   return (
     <TooltipPrimitive.Provider delayDuration={250} skipDelayDuration={100}>
-      <section id="pricing" className="py-24" style={{ background: "#F8F9FC" }}>
+      <section id="pricing" className="py-24" style={{ background: "var(--home-section-muted)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Section header */}
           <motion.div
@@ -483,8 +475,8 @@ export function Pricing() {
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 text-sm font-semibold"
               style={{
-                background: "rgba(108,92,231,0.1)",
-                color: "#6C5CE7",
+                background: "var(--home-pill-bg)",
+                color: "var(--home-brand)",
                 fontFamily: "'Cairo', sans-serif",
               }}
             >
@@ -498,13 +490,13 @@ export function Pricing() {
                 fontFamily: "'Cairo', sans-serif",
                 fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
                 fontWeight: 800,
-                color: "#2D3436",
+                color: "var(--home-text-primary)",
               }}
             >
               أسعار واضحة{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
+                  background: "var(--home-gradient-text)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -516,7 +508,7 @@ export function Pricing() {
             <p
               className="max-w-xl mx-auto"
               style={{
-                color: "#636e72",
+                color: "var(--home-text-secondary)",
                 fontFamily: "'Cairo', sans-serif",
                 lineHeight: 1.8,
               }}
@@ -539,10 +531,10 @@ export function Pricing() {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.5 }}
-            style={{ color: "#a0aab4", fontFamily: "'Cairo', sans-serif" }}
+            style={{ color: "var(--home-pricing-plan-muted)", fontFamily: "'Cairo', sans-serif" }}
           >
             جميع الخطط تشمل ضمان الرضا. تحتاج حزمة مخصصة؟{" "}
-            <a href="#contact" style={{ color: "#6C5CE7", fontWeight: 600 }}>
+            <a href="#contact" style={{ color: "var(--home-brand)", fontWeight: 600 }}>
               تواصل معنا
             </a>
           </motion.p>

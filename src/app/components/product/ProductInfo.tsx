@@ -12,7 +12,6 @@ type Props = {
   reviewCount: number;
   soldCount: number;
   shortDesc: string;
-  basePrice: number;
   originalPrice: number;
   discount: number;
   sizes: Size[];
@@ -32,22 +31,18 @@ function StarRating({ rating, count }: { rating: number; count: number }) {
         {[1, 2, 3, 4, 5].map((i) => (
           <Star
             key={i}
-            className="w-4 h-4"
-            fill={i <= Math.round(rating) ? "#FDCB6E" : "none"}
-            style={{ color: i <= Math.round(rating) ? "#FDCB6E" : "#D1D5DB" }}
+            className="h-4 w-4"
+            fill={i <= Math.round(rating) ? "var(--home-star)" : "none"}
+            style={{
+              color: i <= Math.round(rating) ? "var(--home-star)" : "var(--home-star-empty)",
+            }}
           />
         ))}
       </div>
-      <span
-        className="text-sm font-semibold"
-        style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}
-      >
+      <span className="text-sm font-semibold" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
         {rating}
       </span>
-      <span
-        className="text-sm"
-        style={{ color: "#a0aab4", fontFamily: "'Cairo', sans-serif" }}
-      >
+      <span className="text-sm" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
         ({count.toLocaleString("ar-SA")} تقييم)
       </span>
     </div>
@@ -62,7 +57,6 @@ export function ProductInfo({
   reviewCount,
   soldCount,
   shortDesc,
-  basePrice,
   originalPrice,
   discount,
   sizes,
@@ -76,34 +70,29 @@ export function ProductInfo({
 }: Props) {
   return (
     <div className="flex flex-col gap-5">
-      {/* Category + Brand */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
-        className="flex items-center gap-3 flex-wrap"
+        className="flex flex-wrap items-center gap-3"
       >
         <a
           href={category.slug}
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 hover:opacity-80"
+          className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold transition-all duration-200 hover:opacity-80"
           style={{
-            background: "rgba(108,92,231,0.1)",
-            color: "#6C5CE7",
+            background: "var(--home-accent-soft-bg)",
+            color: "var(--home-brand)",
             fontFamily: "'Cairo', sans-serif",
           }}
         >
-          <Tag className="w-3 h-3" />
+          <Tag className="h-3 w-3" />
           {category.name}
         </a>
-        <span
-          className="text-xs"
-          style={{ color: "#a0aab4", fontFamily: "'Cairo', sans-serif" }}
-        >
+        <span className="text-xs" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
           {brand}
         </span>
       </motion.div>
 
-      {/* Product Name */}
       <motion.h1
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
@@ -112,48 +101,42 @@ export function ProductInfo({
           fontFamily: "'Cairo', sans-serif",
           fontWeight: 800,
           fontSize: "clamp(1.5rem, 2.5vw, 2rem)",
-          color: "#2D3436",
+          color: "var(--home-text-primary)",
           lineHeight: 1.3,
         }}
       >
         {name}
       </motion.h1>
 
-      {/* Rating + Sold */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1, duration: 0.4 }}
-        className="flex items-center gap-4 flex-wrap"
+        className="flex flex-wrap items-center gap-4"
       >
         <StarRating rating={rating} count={reviewCount} />
-        <div
-          className="flex items-center gap-1.5 text-xs"
-          style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif" }}
-        >
-          <Users className="w-3.5 h-3.5" />
+        <div className="flex items-center gap-1.5 text-xs" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif" }}>
+          <Users className="h-3.5 w-3.5" />
           {soldCount.toLocaleString("ar-SA")} تم شراؤه
         </div>
       </motion.div>
 
-      {/* Short description */}
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.15, duration: 0.4 }}
         className="text-sm leading-relaxed"
-        style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif", lineHeight: 1.85 }}
+        style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.85 }}
       >
         {shortDesc}
       </motion.p>
 
-      {/* ── Price block ──────────────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.4 }}
-        className="flex items-end gap-3 flex-wrap pb-5 border-b"
-        style={{ borderColor: "rgba(108,92,231,0.1)" }}
+        className="flex flex-wrap items-end gap-3 border-b pb-5"
+        style={{ borderColor: "var(--home-accent-soft-border)" }}
       >
         <span
           style={{
@@ -162,7 +145,7 @@ export function ProductInfo({
             fontSize: "2.2rem",
             lineHeight: 1,
             letterSpacing: "-0.5px",
-            background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
+            background: "var(--home-gradient-text)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
           }}
@@ -171,17 +154,14 @@ export function ProductInfo({
           <span style={{ fontSize: "1rem", marginRight: "4px" }}>ر.س</span>
         </span>
 
-        <span
-          className="text-base line-through"
-          style={{ color: "#b2bec3", fontFamily: "'Cairo', sans-serif" }}
-        >
+        <span className="text-base line-through" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
           {originalPrice.toLocaleString("ar-SA")} ر.س
         </span>
 
         <span
-          className="px-2.5 py-0.5 rounded-full text-xs font-bold text-white"
+          className="rounded-full px-2.5 py-0.5 text-xs font-bold text-white"
           style={{
-            background: "linear-gradient(135deg, #e17055, #d63031)",
+            background: "var(--home-discount-gradient)",
             fontFamily: "'Cairo', sans-serif",
           }}
         >
@@ -190,10 +170,10 @@ export function ProductInfo({
 
         {stock <= 10 && (
           <span
-            className="text-xs font-semibold px-2.5 py-1 rounded-full"
+            className="rounded-full px-2.5 py-1 text-xs font-semibold"
             style={{
-              background: "rgba(225,112,85,0.12)",
-              color: "#e17055",
+              background: "var(--home-discount-soft-bg)",
+              color: "var(--home-discount-soft-text)",
               fontFamily: "'Cairo', sans-serif",
             }}
           >
@@ -202,43 +182,29 @@ export function ProductInfo({
         )}
       </motion.div>
 
-      {/* ── Size variant ─────────────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.25, duration: 0.4 }}
-      >
-        <p
-          className="text-sm font-semibold mb-3"
-          style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}
-        >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25, duration: 0.4 }}>
+        <p className="mb-3 text-sm font-semibold" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
           الحجم:{" "}
-          <span style={{ color: "#6C5CE7", fontWeight: 700 }}>
+          <span style={{ color: "var(--home-brand)", fontWeight: 700 }}>
             {sizes.find((s) => s.value === selectedSize)?.label}
           </span>
         </p>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex flex-wrap gap-2">
           {sizes.map((size) => (
             <button
               key={size.value}
+              type="button"
               onClick={() => size.available && onSizeChange(size.value)}
               disabled={!size.available}
-              className="relative px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+              className="relative rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200"
               style={{
                 fontFamily: "'Cairo', sans-serif",
-                background:
-                  selectedSize === size.value
-                    ? "linear-gradient(135deg, #6C5CE7, #00CEC9)"
-                    : "white",
-                color: selectedSize === size.value ? "white" : size.available ? "#2D3436" : "#b2bec3",
+                background: selectedSize === size.value ? "var(--home-gradient-brand)" : "var(--home-card-bg)",
+                color: selectedSize === size.value ? "white" : size.available ? "var(--home-text-primary)" : "var(--home-control-disabled-text)",
                 border:
-                  selectedSize === size.value
-                    ? "2px solid transparent"
-                    : "2px solid rgba(108,92,231,0.15)",
+                  selectedSize === size.value ? "2px solid transparent" : "2px solid var(--home-accent-soft-border)",
                 boxShadow:
-                  selectedSize === size.value
-                    ? "0 4px 16px rgba(108,92,231,0.3)"
-                    : "0 2px 8px rgba(0,0,0,0.04)",
+                  selectedSize === size.value ? "var(--home-cta-shadow)" : "var(--home-card-shadow)",
                 opacity: size.available ? 1 : 0.45,
                 cursor: size.available ? "pointer" : "not-allowed",
                 textDecoration: !size.available ? "line-through" : "none",
@@ -247,9 +213,9 @@ export function ProductInfo({
               {size.label}
               {size.priceAdd > 0 && (
                 <span
-                  className="text-xs mr-1"
+                  className="mr-1 text-xs"
                   style={{
-                    color: selectedSize === size.value ? "rgba(255,255,255,0.75)" : "#a0aab4",
+                    color: selectedSize === size.value ? "var(--home-text-inverse-muted)" : "var(--home-text-muted)",
                   }}
                 >
                   +{size.priceAdd}
@@ -260,54 +226,37 @@ export function ProductInfo({
         </div>
       </motion.div>
 
-      {/* ── Concentration variant ─────────────────────────────────────── */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.4 }}
-      >
-        <p
-          className="text-sm font-semibold mb-3"
-          style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}
-        >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3, duration: 0.4 }}>
+        <p className="mb-3 text-sm font-semibold" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
           التركيز
         </p>
-        <div className="flex gap-2 flex-wrap">
+        <div className="flex flex-wrap gap-2">
           {concentrations.map((c) => (
             <button
               key={c.value}
+              type="button"
               onClick={() => c.available && onConcentrationChange(c.value)}
               disabled={!c.available}
-              className="px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200"
+              className="rounded-xl px-4 py-2 text-sm font-semibold transition-all duration-200"
               style={{
                 fontFamily: "'Cairo', sans-serif",
-                background:
-                  selectedConcentration === c.value
-                    ? "linear-gradient(135deg, #6C5CE7, #00CEC9)"
-                    : "white",
-                color:
-                  selectedConcentration === c.value
-                    ? "white"
-                    : c.available
-                    ? "#2D3436"
-                    : "#b2bec3",
+                background: selectedConcentration === c.value ? "var(--home-gradient-brand)" : "var(--home-card-bg)",
+                color: selectedConcentration === c.value
+                  ? "white"
+                  : c.available
+                    ? "var(--home-text-primary)"
+                    : "var(--home-control-disabled-text)",
                 border:
-                  selectedConcentration === c.value
-                    ? "2px solid transparent"
-                    : "2px solid rgba(108,92,231,0.15)",
+                  selectedConcentration === c.value ? "2px solid transparent" : "2px solid var(--home-accent-soft-border)",
                 boxShadow:
-                  selectedConcentration === c.value
-                    ? "0 4px 16px rgba(108,92,231,0.3)"
-                    : "0 2px 8px rgba(0,0,0,0.04)",
+                  selectedConcentration === c.value ? "var(--home-cta-shadow)" : "var(--home-card-shadow)",
                 opacity: c.available ? 1 : 0.45,
                 cursor: c.available ? "pointer" : "not-allowed",
                 textDecoration: !c.available ? "line-through" : "none",
               }}
             >
               {c.label}
-              {!c.available && (
-                <span className="mr-1 text-xs">(نفذ)</span>
-              )}
+              {!c.available && <span className="mr-1 text-xs">(نفذ)</span>}
             </button>
           ))}
         </div>

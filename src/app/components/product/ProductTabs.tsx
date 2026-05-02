@@ -1,4 +1,5 @@
 import { useState } from "react";
+import type { CSSProperties } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Star, ThumbsUp, BadgeCheck } from "lucide-react";
 import * as TabsPrimitive from "@radix-ui/react-tabs";
@@ -31,8 +32,8 @@ function StarsDisplay({ rating, size = 4 }: { rating: number; size?: number }) {
           style={{
             width: size,
             height: size,
-            color: i <= Math.round(rating) ? "#FDCB6E" : "#E2E8F0",
-            fill: i <= Math.round(rating) ? "#FDCB6E" : "none",
+            color: i <= Math.round(rating) ? "var(--home-star)" : "var(--home-star-empty)",
+            fill: i <= Math.round(rating) ? "var(--home-star)" : "none",
           }}
         />
       ))}
@@ -44,33 +45,27 @@ function RatingBar({ stars, count, total }: { stars: number; count: number; tota
   const pct = total > 0 ? (count / total) * 100 : 0;
   return (
     <div className="flex items-center gap-3">
-      <div className="flex gap-0.5 flex-shrink-0">
+      <div className="flex flex-shrink-0 gap-0.5">
         {[1, 2, 3, 4, 5].map((i) => (
           <Star
             key={i}
-            className="w-3 h-3"
-            fill={i <= stars ? "#FDCB6E" : "none"}
-            style={{ color: i <= stars ? "#FDCB6E" : "#E2E8F0" }}
+            className="h-3 w-3"
+            fill={i <= stars ? "var(--home-star)" : "none"}
+            style={{ color: i <= stars ? "var(--home-star)" : "var(--home-star-empty)" }}
           />
         ))}
       </div>
-      <div
-        className="flex-1 h-2 rounded-full overflow-hidden"
-        style={{ background: "rgba(108,92,231,0.1)" }}
-      >
+      <div className="h-2 flex-1 overflow-hidden rounded-full" style={{ background: "var(--home-accent-soft-bg)" }}>
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${pct}%` }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="h-full rounded-full"
-          style={{ background: "linear-gradient(90deg, #6C5CE7, #00CEC9)" }}
+          style={{ background: "var(--home-gradient-brand)" }}
         />
       </div>
-      <span
-        className="text-xs w-8 text-left"
-        style={{ color: "#a0aab4", fontFamily: "'Cairo', sans-serif" }}
-      >
+      <span className="w-8 text-left text-xs" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
         {count}
       </span>
     </div>
@@ -92,40 +87,43 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
     count: reviews.filter((r) => Math.round(r.rating) === stars).length,
   }));
 
+  const detailEntries = Object.entries(details);
+
   return (
     <TabsPrimitive.Root value={active} onValueChange={setActive}>
-      {/* ── Tab list ────────────────────────────────────────────────── */}
       <TabsPrimitive.List
-        className="flex gap-1 p-1.5 rounded-2xl w-fit"
-        style={{ background: "white", boxShadow: "0 2px 12px rgba(108,92,231,0.08)" }}
+        className="flex w-fit gap-1 rounded-2xl p-1.5"
+        style={{ background: "var(--home-card-bg)", boxShadow: "var(--home-card-shadow)" }}
         aria-label="أقسام المنتج"
       >
         {tabConfig.map(({ value, label }) => (
           <TabsPrimitive.Trigger
             key={value}
             value={value}
-            className="relative px-5 py-2.5 rounded-xl text-sm font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2"
-            style={{
-              fontFamily: "'Cairo', sans-serif",
-              color: active === value ? "white" : "#636e72",
-              "--tw-ring-color": "#6C5CE7",
-            } as React.CSSProperties}
+            className="relative rounded-xl px-5 py-2.5 text-sm font-semibold transition-colors duration-200 focus:outline-none focus-visible:ring-2"
+            style={
+              {
+                fontFamily: "'Cairo', sans-serif",
+                color: active === value ? "white" : "var(--home-text-secondary)",
+                "--tw-ring-color": "var(--home-brand)",
+              } as CSSProperties
+            }
           >
             {active === value && (
               <motion.span
                 layoutId="tab-pill"
                 className="absolute inset-0 rounded-xl"
-                style={{ background: "linear-gradient(135deg, #6C5CE7, #00CEC9)" }}
+                style={{ background: "var(--home-gradient-brand)" }}
                 transition={{ type: "spring", bounce: 0.2, duration: 0.5 }}
               />
             )}
             <span className="relative z-10">{label}</span>
             {value === "reviews" && (
               <span
-                className="relative z-10 mr-1.5 px-1.5 py-0.5 rounded-full text-xs font-bold"
+                className="relative z-10 mr-1.5 rounded-full px-1.5 py-0.5 text-xs font-bold"
                 style={{
-                  background: active === value ? "rgba(255,255,255,0.25)" : "rgba(108,92,231,0.1)",
-                  color: active === value ? "white" : "#6C5CE7",
+                  background: active === value ? "rgba(255,255,255,0.25)" : "var(--home-accent-soft-bg)",
+                  color: active === value ? "white" : "var(--home-brand)",
                 }}
               >
                 {reviewCount}
@@ -135,17 +133,15 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
         ))}
       </TabsPrimitive.List>
 
-      {/* ── Tab panels ──────────────────────────────────────────────── */}
       <div
         className="mt-6 rounded-3xl p-7"
         style={{
-          background: "white",
-          boxShadow: "0 4px 24px rgba(108,92,231,0.06)",
-          border: "1px solid rgba(108,92,231,0.07)",
+          background: "var(--home-card-bg)",
+          boxShadow: "var(--home-card-shadow)",
+          border: "1px solid var(--home-card-border)",
         }}
       >
         <AnimatePresence mode="wait">
-          {/* Description */}
           <TabsPrimitive.Content value="description" asChild>
             <motion.div
               key="description"
@@ -155,18 +151,13 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
               transition={{ duration: 0.3 }}
             >
               <div
-                className="prose max-w-none text-sm leading-loose"
-                style={{
-                  fontFamily: "'Cairo', sans-serif",
-                  color: "#636e72",
-                  lineHeight: 2,
-                }}
+                className="home-pdp-prose prose max-w-none text-sm leading-loose"
+                style={{ fontFamily: "'Cairo', sans-serif", lineHeight: 2 }}
                 dangerouslySetInnerHTML={{ __html: description }}
               />
             </motion.div>
           </TabsPrimitive.Content>
 
-          {/* Details */}
           <TabsPrimitive.Content value="details" asChild>
             <motion.div
               key="details"
@@ -175,28 +166,22 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
               exit={{ opacity: 0, y: -10 }}
               transition={{ duration: 0.3 }}
             >
-              <dl className="grid grid-cols-1 sm:grid-cols-2 gap-0">
-                {Object.entries(details).map(([key, value], i) => (
+              <dl className="grid grid-cols-1 gap-0 sm:grid-cols-2">
+                {detailEntries.map(([key, value], i) => (
                   <div
                     key={key}
-                    className="flex items-start gap-3 py-3.5 px-4 rounded-xl transition-colors duration-150 hover:bg-purple-50"
+                    className="flex items-start gap-3 rounded-xl px-4 py-3.5 transition-colors duration-150 hover:bg-[var(--home-accent-soft-bg)]"
                     style={{
-                      borderBottom:
-                        i < Object.entries(details).length - 1
-                          ? "1px solid rgba(108,92,231,0.07)"
-                          : "none",
+                      borderBottom: i < detailEntries.length - 1 ? "1px solid var(--home-card-border)" : "none",
                     }}
                   >
                     <dt
-                      className="text-sm font-semibold w-28 flex-shrink-0"
-                      style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}
+                      className="w-28 flex-shrink-0 text-sm font-semibold"
+                      style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}
                     >
                       {key}
                     </dt>
-                    <dd
-                      className="text-sm"
-                      style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif" }}
-                    >
+                    <dd className="text-sm" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif" }}>
                       {value}
                     </dd>
                   </div>
@@ -205,7 +190,6 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
             </motion.div>
           </TabsPrimitive.Content>
 
-          {/* Reviews */}
           <TabsPrimitive.Content value="reviews" asChild>
             <motion.div
               key="reviews"
@@ -215,11 +199,14 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
               transition={{ duration: 0.3 }}
               className="flex flex-col gap-8"
             >
-              {/* Summary */}
-              <div className="flex flex-col sm:flex-row gap-8 items-start">
-                {/* Overall score */}
-                <div className="flex flex-col items-center gap-2 p-6 rounded-2xl flex-shrink-0"
-                  style={{ background: "rgba(108,92,231,0.04)", border: "1px solid rgba(108,92,231,0.08)", minWidth: "140px" }}
+              <div className="flex flex-col items-start gap-8 sm:flex-row">
+                <div
+                  className="flex flex-shrink-0 flex-col items-center gap-2 rounded-2xl p-6"
+                  style={{
+                    background: "var(--home-accent-soft-bg)",
+                    border: "1px solid var(--home-card-border)",
+                    minWidth: "140px",
+                  }}
                 >
                   <span
                     style={{
@@ -227,7 +214,7 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
                       fontWeight: 900,
                       fontSize: "3.5rem",
                       lineHeight: 1,
-                      background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
+                      background: "var(--home-gradient-text)",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
                     }}
@@ -235,28 +222,18 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
                     {rating}
                   </span>
                   <StarsDisplay rating={rating} size={16} />
-                  <span
-                    className="text-xs"
-                    style={{ color: "#a0aab4", fontFamily: "'Cairo', sans-serif" }}
-                  >
+                  <span className="text-xs" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
                     {reviewCount} تقييم
                   </span>
                 </div>
 
-                {/* Breakdown bars */}
-                <div className="flex flex-col gap-2 flex-1 w-full">
+                <div className="flex w-full flex-1 flex-col gap-2">
                   {ratingBreakdown.map(({ stars, count }) => (
-                    <RatingBar
-                      key={stars}
-                      stars={stars}
-                      count={count}
-                      total={reviews.length}
-                    />
+                    <RatingBar key={stars} stars={stars} count={count} total={reviews.length} />
                   ))}
                 </div>
               </div>
 
-              {/* Review cards */}
               <div className="flex flex-col gap-5">
                 {reviews.map((review) => (
                   <motion.div
@@ -265,48 +242,41 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4 }}
-                    className="p-5 rounded-2xl"
+                    className="rounded-2xl p-5"
                     style={{
-                      background: "#FAFBFF",
-                      border: "1px solid rgba(108,92,231,0.08)",
+                      background: "var(--home-pdp-subtle-surface)",
+                      border: "1px solid var(--home-card-border)",
                     }}
                   >
-                    <div className="flex items-start gap-3 mb-3">
-                      {/* Avatar */}
+                    <div className="mb-3 flex items-start gap-3">
                       <div
-                        className="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0"
-                        style={{ background: "linear-gradient(135deg, #6C5CE7, #00CEC9)" }}
+                        className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full text-sm font-bold text-white"
+                        style={{ background: "var(--home-gradient-brand)" }}
                       >
                         {review.initials}
                       </div>
                       <div className="flex-1">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span
-                            className="text-sm font-semibold"
-                            style={{ color: "#2D3436", fontFamily: "'Cairo', sans-serif" }}
-                          >
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="text-sm font-semibold" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
                             {review.author}
                           </span>
                           {review.verified && (
                             <span
-                              className="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full"
+                              className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs"
                               style={{
-                                background: "rgba(0,184,148,0.1)",
-                                color: "#00b894",
+                                background: "var(--home-success-soft)",
+                                color: "var(--home-success)",
                                 fontFamily: "'Cairo', sans-serif",
                               }}
                             >
-                              <BadgeCheck className="w-3 h-3" />
+                              <BadgeCheck className="h-3 w-3" />
                               مشتري موثق
                             </span>
                           )}
                         </div>
-                        <div className="flex items-center gap-2 mt-1">
+                        <div className="mt-1 flex items-center gap-2">
                           <StarsDisplay rating={review.rating} size={14} />
-                          <span
-                            className="text-xs"
-                            style={{ color: "#a0aab4", fontFamily: "'Cairo', sans-serif" }}
-                          >
+                          <span className="text-xs" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
                             {review.date}
                           </span>
                         </div>
@@ -314,26 +284,22 @@ export function ProductTabs({ description, details, reviews, rating, reviewCount
                     </div>
 
                     <p
-                      className="text-sm leading-relaxed mb-3"
-                      style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif", lineHeight: 1.85 }}
+                      className="mb-3 text-sm leading-relaxed"
+                      style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.85 }}
                     >
                       {review.comment}
                     </p>
 
                     <button
-                      onClick={() =>
-                        setHelpfulMap((prev) => ({ ...prev, [review.id]: !prev[review.id] }))
-                      }
+                      type="button"
+                      onClick={() => setHelpfulMap((prev) => ({ ...prev, [review.id]: !prev[review.id] }))}
                       className="flex items-center gap-1.5 text-xs transition-colors duration-150"
                       style={{
-                        color: helpfulMap[review.id] ? "#6C5CE7" : "#a0aab4",
+                        color: helpfulMap[review.id] ? "var(--home-brand)" : "var(--home-text-muted)",
                         fontFamily: "'Cairo', sans-serif",
                       }}
                     >
-                      <ThumbsUp
-                        className="w-3.5 h-3.5"
-                        fill={helpfulMap[review.id] ? "#6C5CE7" : "none"}
-                      />
+                      <ThumbsUp className="h-3.5 w-3.5" fill={helpfulMap[review.id] ? "var(--home-brand)" : "none"} />
                       مفيد ({review.helpful + (helpfulMap[review.id] ? 1 : 0)})
                     </button>
                   </motion.div>

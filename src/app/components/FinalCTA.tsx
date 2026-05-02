@@ -1,58 +1,52 @@
 import { motion } from "motion/react";
 import { ArrowLeft, MessageCircle } from "lucide-react";
 
-export function FinalCTA() { 
-  return ( 
-    <section
-      className="relative py-28 overflow-hidden"
-      style={{ background: "linear-gradient(135deg, #1a0533 0%, #2d1b69 40%, #1a3a6e 80%, #0d2b52 100%)" }}
-    >
-      {/* Background decorations */}
+export function FinalCTA() {
+  return (
+    <section className="relative overflow-hidden py-28" style={{ background: "var(--home-hero-bg)" }}>
       <div
-        className="absolute top-0 left-0 w-96 h-96 opacity-20 blur-3xl rounded-full"
-        style={{ background: "radial-gradient(circle, #6C5CE7, transparent)" }}
+        className="absolute top-0 left-0 rounded-full opacity-20 blur-3xl"
+        style={{ width: "24rem", height: "24rem", background: "var(--home-hero-blob-purple)" }}
       />
       <div
-        className="absolute bottom-0 right-0 w-96 h-96 opacity-20 blur-3xl rounded-full"
-        style={{ background: "radial-gradient(circle, #00CEC9, transparent)" }}
+        className="absolute right-0 bottom-0 rounded-full opacity-20 blur-3xl"
+        style={{ width: "24rem", height: "24rem", background: "var(--home-hero-blob-teal)" }}
       />
       <div
-        className="absolute top-1/2 left-1/2 w-48 h-48 opacity-10 blur-2xl rounded-full -translate-x-1/2 -translate-y-1/2"
-        style={{ background: "white" }}
+        className="absolute top-1/2 left-1/2 h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full opacity-10 blur-2xl"
+        style={{ background: "var(--home-hero-blob-white)" }}
       />
 
-      {/* Dot pattern */}
       <div
         className="absolute inset-0 opacity-5"
         style={{
-          backgroundImage: "radial-gradient(rgba(255,255,255,0.5) 1px, transparent 1px)",
+          backgroundImage: "radial-gradient(var(--home-hero-dot-pattern) 1px, transparent 1px)",
           backgroundSize: "32px 32px",
         }}
       />
 
-      <div className="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <div className="relative mx-auto max-w-4xl px-6 text-center lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          {/* Badge */}
           <div
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8 border text-sm font-semibold"
+            className="mb-8 inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold"
             style={{
               background: "rgba(255,255,255,0.08)",
               borderColor: "rgba(255,255,255,0.2)",
-              color: "#00CEC9",
+              color: "var(--home-brand-secondary)",
               fontFamily: "'Cairo', sans-serif",
             }}
           >
-            <span className="w-2 h-2 rounded-full animate-pulse" style={{ background: "#00CEC9" }} />
+            <span className="size-2 animate-pulse rounded-full" style={{ background: "var(--home-brand-secondary)" }} />
             نقبل عملاء جدد الآن
           </div>
 
           <h2
-            className="text-white mb-6"
+            className="mb-6 text-white"
             style={{
               fontFamily: "'Cairo', sans-serif",
               fontSize: "clamp(2rem, 4vw, 3.2rem)",
@@ -63,7 +57,7 @@ export function FinalCTA() {
             هل أنت مستعد لتنمية{" "}
             <span
               style={{
-                background: "linear-gradient(135deg, #a29bfe, #00CEC9)",
+                background: "linear-gradient(135deg, var(--home-brand-muted), var(--home-brand-secondary))",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}
@@ -73,9 +67,9 @@ export function FinalCTA() {
           </h2>
 
           <p
-            className="max-w-2xl mx-auto mb-12"
+            className="mx-auto mb-12 max-w-2xl"
             style={{
-              color: "rgba(255,255,255,0.7)",
+              color: "var(--home-text-inverse-muted)",
               fontFamily: "'Cairo', sans-serif",
               lineHeight: 1.8,
               fontSize: "1.1rem",
@@ -85,51 +79,43 @@ export function FinalCTA() {
             لنبني شيئاً استثنائياً معاً — سريعاً واحترافياً وبنتائج ملموسة.
           </p>
 
-          {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+          <div className="mb-12 flex flex-col justify-center gap-4 sm:flex-row">
             <a
               href="#pricing"
-              className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-2xl text-white font-bold transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl px-10 py-5 font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl"
               style={{
-                background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
-                boxShadow: "0 12px 40px rgba(108,92,231,0.45)",
+                background: "var(--home-gradient-brand)",
+                boxShadow: "var(--home-cta-shadow-lg)",
                 fontFamily: "'Cairo', sans-serif",
                 fontSize: "1rem",
               }}
             >
-              ابدأ الآن <ArrowLeft className="w-5 h-5" />
+              ابدأ الآن <ArrowLeft className="size-5" />
             </a>
             <a
               href="https://wa.me/966500000000"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-10 py-5 rounded-2xl font-bold transition-all duration-300 hover:scale-105 border"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl border px-10 py-5 font-bold text-white transition-all duration-300 hover:scale-105"
               style={{
-                color: "white",
-                borderColor: "rgba(255,255,255,0.3)",
-                background: "rgba(255,255,255,0.08)",
+                borderColor: "var(--home-hero-outline-btn-border)",
+                background: "var(--home-hero-outline-btn-bg)",
                 backdropFilter: "blur(8px)",
                 fontFamily: "'Cairo', sans-serif",
                 fontSize: "1rem",
               }}
             >
-              <MessageCircle className="w-5 h-5" />
+              <MessageCircle className="size-5" />
               استشارة مجانية
             </a>
           </div>
 
-          {/* Trust badges */}
           <div className="flex flex-wrap justify-center gap-6">
-            {[
-              "✅ بدون رسوم إعداد",
-              "⚡ تسليم خلال 48 ساعة",
-              "🔄 تعديلات غير محدودة",
-              "🛡️ ضمان الرضا",
-            ].map((badge) => (
+            {["✅ بدون رسوم إعداد", "⚡ تسليم خلال 48 ساعة", "🔄 تعديلات غير محدودة", "🛡️ ضمان الرضا"].map((badge) => (
               <div
                 key={badge}
                 className="text-sm font-medium"
-                style={{ color: "rgba(255,255,255,0.6)", fontFamily: "'Cairo', sans-serif" }}
+                style={{ color: "var(--home-text-inverse-subtle)", fontFamily: "'Cairo', sans-serif" }}
               >
                 {badge}
               </div>

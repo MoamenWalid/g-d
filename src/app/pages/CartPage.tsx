@@ -1,4 +1,4 @@
-import { useState, useReducer, useRef, useEffect } from "react";
+import React, { useState, useReducer, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { Link } from "react-router";
 import {
@@ -8,6 +8,8 @@ import {
   ShoppingBag,
   Tag,
   ChevronRight,
+  ChevronLeft,
+  Home,
   ArrowRight,
   Sparkles,
   Package,
@@ -17,6 +19,8 @@ import {
   ChevronDown,
   FileText,
 } from "lucide-react";
+
+import { AppPageHeader } from "../components/AppPageHeader";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -138,7 +142,7 @@ function AnimatedPrice({ value }: { value: number }) {
     <span
       className="tabular-nums transition-all duration-300"
       style={{
-        color: flash ? "#6C5CE7" : "inherit",
+        color: flash ? "var(--home-brand)" : "inherit",
         transform: flash ? "scale(1.06)" : "scale(1)",
         display: "inline-block",
       }}
@@ -163,24 +167,25 @@ function QuantityControl({
 }: QuantityControlProps) {
   return (
     <div
-      className="inline-flex items-center gap-0 rounded-2xl overflow-hidden"
+      className="inline-flex items-center gap-0 overflow-hidden rounded-2xl"
       style={{
-        background: "rgba(108,92,231,0.07)",
-        border: "1.5px solid rgba(108,92,231,0.18)",
+        background: "var(--home-card-bg)",
+        border: "1.5px solid var(--home-accent-soft-border)",
       }}
     >
       <button
+        type="button"
         onClick={onDecrement}
         disabled={quantity <= 1}
-        className="w-9 h-9 flex items-center justify-center text-lg font-bold transition-all duration-200 disabled:opacity-30 hover:bg-purple-100 active:scale-90"
-        style={{ color: "#6C5CE7" }}
+        className="flex h-9 w-9 items-center justify-center text-lg font-bold transition-all duration-200 hover:bg-[var(--home-accent-soft-bg)] active:scale-90 disabled:opacity-30"
+        style={{ color: "var(--home-brand)" }}
         aria-label="تقليل الكمية"
       >
         <Minus className="w-3.5 h-3.5" />
       </button>
       <span
-        className="w-9 h-9 flex items-center justify-center text-sm font-bold tabular-nums select-none"
-        style={{ color: "#2d1b69", fontFamily: "'Cairo', sans-serif" }}
+        className="flex h-9 w-9 select-none items-center justify-center text-sm font-bold tabular-nums"
+        style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}
       >
         <AnimatePresence mode="popLayout">
           <motion.span
@@ -195,9 +200,10 @@ function QuantityControl({
         </AnimatePresence>
       </span>
       <button
+        type="button"
         onClick={onIncrement}
-        className="w-9 h-9 flex items-center justify-center text-lg font-bold transition-all duration-200 hover:bg-purple-100 active:scale-90"
-        style={{ color: "#6C5CE7" }}
+        className="flex h-9 w-9 items-center justify-center text-lg font-bold transition-all duration-200 hover:bg-[var(--home-accent-soft-bg)] active:scale-90"
+        style={{ color: "var(--home-brand)" }}
         aria-label="زيادة الكمية"
       >
         <Plus className="w-3.5 h-3.5" />
@@ -237,64 +243,54 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
         transition: { duration: 0.35, ease: "easeInOut" },
       }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="group relative rounded-3xl overflow-hidden"
+      className="group relative overflow-hidden rounded-3xl"
       style={{
-        background: "rgba(255,255,255,0.85)",
+        background: "var(--home-card-bg)",
         backdropFilter: "blur(12px)",
-        boxShadow:
-          "0 4px 24px rgba(108,92,231,0.07), 0 1px 4px rgba(0,0,0,0.04)",
-        border: "1.5px solid rgba(108,92,231,0.1)",
+        boxShadow: "var(--home-card-shadow)",
+        border: "1px solid var(--home-card-border)",
       }}
     >
-      {/* Hover glow */}
       <div
-        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none rounded-3xl"
-        style={{
-          background:
-            "linear-gradient(135deg, rgba(108,92,231,0.04) 0%, rgba(0,206,201,0.04) 100%)",
-        }}
+        className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{ background: "var(--home-cart-item-hover-glow)" }}
       />
 
-      <div className="relative flex flex-col sm:flex-row gap-4 p-5">
-        {/* Image */}
+      <div className="relative flex flex-col gap-4 p-5 sm:flex-row">
         <div className="relative flex-shrink-0">
           <div
-            className="w-full sm:w-28 h-40 sm:h-28 rounded-2xl overflow-hidden"
-            style={{ boxShadow: "0 6px 20px rgba(0,0,0,0.12)" }}
+            className="h-40 w-full overflow-hidden rounded-2xl sm:h-28 sm:w-28"
+            style={{ boxShadow: "var(--home-card-shadow)" }}
           >
             <img
               src={product.image}
               alt={product.title}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
-          {/* Discount badge */}
           <div
-            className="absolute -top-2 -right-2 w-11 h-11 rounded-full flex items-center justify-center text-xs font-black text-white"
+            className="absolute -right-2 -top-2 flex h-11 w-11 items-center justify-center rounded-full text-xs font-black text-white"
             style={{
-              background: "linear-gradient(135deg, #6C5CE7, #a29bfe)",
-              boxShadow: "0 4px 12px rgba(108,92,231,0.4)",
+              background: "var(--home-gradient-brand)",
+              boxShadow: "var(--home-cta-shadow)",
               fontFamily: "'Cairo', sans-serif",
             }}
           >
             {Math.round(
-              ((product.originalPrice - product.discountedPrice) /
-                product.originalPrice) *
-                100
+              ((product.originalPrice - product.discountedPrice) / product.originalPrice) * 100
             )}
             %
           </div>
         </div>
 
-        {/* Info */}
-        <div className="flex-1 min-w-0 flex flex-col gap-2">
+        <div className="flex min-w-0 flex-1 flex-col gap-2">
           <div className="flex items-start justify-between gap-2">
             <div>
               <span
-                className="text-xs font-semibold px-2.5 py-0.5 rounded-full mb-1.5 inline-block"
+                className="mb-1.5 inline-block rounded-full px-2.5 py-0.5 text-xs font-semibold"
                 style={{
-                  background: "rgba(108,92,231,0.1)",
-                  color: "#6C5CE7",
+                  background: "var(--home-accent-soft-bg)",
+                  color: "var(--home-brand)",
                   fontFamily: "'Cairo', sans-serif",
                 }}
               >
@@ -303,7 +299,7 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
               <h3
                 className="text-base font-bold leading-snug"
                 style={{
-                  color: "#1a0533",
+                  color: "var(--home-text-primary)",
                   fontFamily: "'Cairo', sans-serif",
                   fontSize: "1rem",
                 }}
@@ -311,31 +307,30 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
                 {product.title}
               </h3>
             </div>
-            {/* Remove button */}
             <button
+              type="button"
               onClick={onRemove}
-              className="flex-shrink-0 w-8 h-8 rounded-xl flex items-center justify-center transition-all duration-200 hover:scale-110 active:scale-95"
+              className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl transition-all duration-200 hover:scale-110 active:scale-95"
               style={{
-                background: "rgba(255,71,87,0.08)",
-                color: "#ff4757",
+                background: "var(--home-wishlist-bg)",
+                color: "var(--home-wishlist)",
               }}
               aria-label="إزالة المنتج"
             >
-              <Trash2 className="w-3.5 h-3.5" />
+              <Trash2 className="h-3.5 w-3.5" />
             </button>
           </div>
 
-          {/* Options */}
           <div className="flex flex-wrap gap-1.5">
             {product.options.map((opt) => (
               <span
                 key={opt.label}
-                className="text-xs px-2.5 py-1 rounded-lg font-medium"
+                className="rounded-lg px-2.5 py-1 text-xs font-medium"
                 style={{
-                  background: "rgba(0,206,201,0.08)",
-                  color: "#00a8a5",
+                  background: "var(--home-teal-soft-bg)",
+                  color: "var(--home-brand-secondary)",
                   fontFamily: "'Cairo', sans-serif",
-                  border: "1px solid rgba(0,206,201,0.2)",
+                  border: "1px solid var(--home-accent-soft-border)",
                 }}
               >
                 {opt.label}: <strong>{opt.value}</strong>
@@ -344,12 +339,12 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
             {product.customFields.map((cf) => (
               <span
                 key={cf.label}
-                className="text-xs px-2.5 py-1 rounded-lg font-medium"
+                className="rounded-lg px-2.5 py-1 text-xs font-medium"
                 style={{
-                  background: "rgba(253,203,110,0.12)",
-                  color: "#b8860b",
+                  background: "color-mix(in srgb, var(--home-accent-amber) 16%, transparent)",
+                  color: "var(--home-text-primary)",
                   fontFamily: "'Cairo', sans-serif",
-                  border: "1px solid rgba(253,203,110,0.3)",
+                  border: "1px solid color-mix(in srgb, var(--home-accent-amber) 35%, transparent)",
                 }}
               >
                 ✏️ {cf.label}: {cf.value}
@@ -357,13 +352,12 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
             ))}
           </div>
 
-          {/* Pricing row */}
-          <div className="flex items-center justify-between mt-auto pt-2">
+          <div className="mt-auto flex items-center justify-between pt-2">
             <div className="flex items-center gap-2">
               <span
                 className="text-lg font-black"
                 style={{
-                  color: "#1a0533",
+                  color: "var(--home-text-primary)",
                   fontFamily: "'Cairo', sans-serif",
                 }}
               >
@@ -371,15 +365,12 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
               </span>
               <span
                 className="text-sm line-through"
-                style={{ color: "#bbb", fontFamily: "'Cairo', sans-serif" }}
+                style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}
               >
                 {product.originalPrice.toLocaleString("ar-SA")}
               </span>
               {product.optionExtra > 0 && (
-                <span
-                  className="text-xs font-semibold"
-                  style={{ color: "#6C5CE7", fontFamily: "'Cairo', sans-serif" }}
-                >
+                <span className="text-xs font-semibold" style={{ color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}>
                   +{product.optionExtra} (خيارات)
                 </span>
               )}
@@ -391,49 +382,34 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
                 onIncrement={onIncrement}
                 onDecrement={onDecrement}
               />
-              {/* Line total */}
-              <div className="text-right hidden sm:block">
-                <div
-                  className="text-xs font-medium"
-                  style={{ color: "#999", fontFamily: "'Cairo', sans-serif" }}
-                >
+              <div className="hidden text-right sm:block">
+                <div className="text-xs font-medium" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
                   الإجمالي
                 </div>
-                <div
-                  className="text-base font-black"
-                  style={{ color: "#6C5CE7", fontFamily: "'Cairo', sans-serif" }}
-                >
+                <div className="text-base font-black" style={{ color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}>
                   <AnimatedPrice value={lineTotal} />
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Mobile line total */}
-          <div
-            className="sm:hidden text-sm font-bold text-left"
-            style={{ color: "#6C5CE7", fontFamily: "'Cairo', sans-serif" }}
-          >
+          <div className="text-left text-sm font-bold sm:hidden" style={{ color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}>
             الإجمالي: <AnimatedPrice value={lineTotal} />
           </div>
         </div>
       </div>
 
-      {/* ── Accordion (first product only) ── */}
       {isFirstProduct && (
-        <div
-          className="border-t mx-5 mb-1"
-          style={{ borderColor: "rgba(108,92,231,0.1)" }}
-        >
-          {/* Trigger */}
+        <div className="mx-5 mb-1 border-t" style={{ borderColor: "var(--home-card-border)" }}>
           <button
+            type="button"
             onClick={() => setAccordionOpen((prev) => !prev)}
-            className="w-full flex items-center justify-between gap-3 py-3.5 text-sm font-bold transition-colors duration-200 hover:opacity-80 focus:outline-none"
-            style={{ color: "#6C5CE7", fontFamily: "'Cairo', sans-serif" }}
+            className="flex w-full items-center justify-between gap-3 py-3.5 text-sm font-bold transition-colors duration-200 hover:opacity-80 focus:outline-none"
+            style={{ color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}
             aria-expanded={accordionOpen}
           >
             <span className="flex items-center gap-2">
-              <FileText className="w-4 h-4 flex-shrink-0" />
+              <FileText className="h-4 w-4 flex-shrink-0" />
               الإضافات
             </span>
             <motion.span
@@ -441,11 +417,10 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
               transition={{ duration: 0.25, ease: "easeInOut" }}
               className="flex-shrink-0"
             >
-              <ChevronDown className="w-4 h-4" />
+              <ChevronDown className="h-4 w-4" />
             </motion.span>
           </button>
 
-          {/* Panel */}
           <AnimatePresence initial={false}>
             {accordionOpen && (
               <motion.div
@@ -457,12 +432,8 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
                 style={{ overflow: "hidden" }}
               >
                 <div className="flex flex-col gap-4 pb-5">
-                  {/* Field 1 — Textarea */}
                   <div className="flex flex-col gap-1.5">
-                    <label
-                      className="text-xs font-bold"
-                      style={{ color: "#555", fontFamily: "'Cairo', sans-serif" }}
-                    >
+                    <label className="text-xs font-bold" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif" }}>
                       نص الإتفاقيه
                     </label>
                     <textarea
@@ -470,11 +441,11 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
                       onChange={(e) => setAgreementText(e.target.value)}
                       placeholder="أدخل نص الاتفاقية هنا…"
                       rows={4}
-                      className="w-full px-3.5 py-2.5 rounded-2xl text-sm resize-none outline-none transition-all duration-200 focus:ring-2 focus:ring-purple-300"
+                      className="w-full resize-none rounded-2xl px-3.5 py-2.5 text-sm outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--home-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--home-card-bg)]"
                       style={{
-                        background: "rgba(108,92,231,0.04)",
-                        border: "1.5px solid rgba(108,92,231,0.15)",
-                        color: "#1a0533",
+                        background: "var(--home-pdp-subtle-surface)",
+                        border: "1.5px solid var(--home-accent-soft-border)",
+                        color: "var(--home-text-primary)",
                         fontFamily: "'Cairo', sans-serif",
                         direction: "rtl",
                         lineHeight: 1.7,
@@ -482,12 +453,8 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
                     />
                   </div>
 
-                  {/* Field 2 — Input */}
                   <div className="flex flex-col gap-1.5">
-                    <label
-                      className="text-xs font-bold"
-                      style={{ color: "#555", fontFamily: "'Cairo', sans-serif" }}
-                    >
+                    <label className="text-xs font-bold" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif" }}>
                       نص الإتفاقيه ٢
                     </label>
                     <input
@@ -495,11 +462,11 @@ function CartItem({ product, onIncrement, onDecrement, onRemove }: CartItemProps
                       value={agreement2Text}
                       onChange={(e) => setAgreement2Text(e.target.value)}
                       placeholder="أدخل النص هنا…"
-                      className="w-full px-3.5 py-2.5 rounded-2xl text-sm outline-none transition-all duration-200 focus:ring-2 focus:ring-purple-300"
+                      className="w-full rounded-2xl px-3.5 py-2.5 text-sm outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--home-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--home-card-bg)]"
                       style={{
-                        background: "rgba(108,92,231,0.04)",
-                        border: "1.5px solid rgba(108,92,231,0.15)",
-                        color: "#1a0533",
+                        background: "var(--home-pdp-subtle-surface)",
+                        border: "1.5px solid var(--home-accent-soft-border)",
+                        color: "var(--home-text-primary)",
                         fontFamily: "'Cairo', sans-serif",
                         direction: "rtl",
                       }}
@@ -570,39 +537,32 @@ function OrderSummary({ items }: OrderSummaryProps) {
 
   return (
     <div
-      className="rounded-3xl overflow-hidden"
+      className="overflow-hidden rounded-3xl"
       style={{
-        background: "rgba(255,255,255,0.9)",
+        background: "var(--home-card-bg)",
         backdropFilter: "blur(16px)",
-        boxShadow:
-          "0 8px 40px rgba(108,92,231,0.1), 0 2px 8px rgba(0,0,0,0.05)",
-        border: "1.5px solid rgba(108,92,231,0.12)",
+        boxShadow: "var(--home-card-shadow)",
+        border: "1px solid var(--home-card-border)",
       }}
     >
-      {/* Header */}
       <div
-        className="px-6 py-5 flex items-center gap-3"
-        style={{
-          background: "linear-gradient(135deg, #1a0533 0%, #2d1b69 100%)",
-        }}
+        className="flex items-center gap-3 px-6 py-5"
+        style={{ background: "var(--home-pricing-highlight-bg)" }}
       >
         <div
-          className="w-9 h-9 rounded-xl flex items-center justify-center"
-          style={{ background: "rgba(255,255,255,0.12)" }}
+          className="flex h-9 w-9 items-center justify-center rounded-xl"
+          style={{ background: "var(--home-pricing-highlight-feature-hover)" }}
         >
-          <ShoppingBag className="w-4.5 h-4.5 text-white" />
+          <ShoppingBag className="h-[18px] w-[18px] text-white" />
         </div>
-        <h2
-          className="text-white font-bold text-lg"
-          style={{ fontFamily: "'Cairo', sans-serif" }}
-        >
+        <h2 className="text-lg font-bold text-white" style={{ fontFamily: "'Cairo', sans-serif" }}>
           ملخص الطلب
         </h2>
         <span
-          className="mr-auto text-xs px-2.5 py-1 rounded-full font-bold"
+          className="mr-auto rounded-full px-2.5 py-1 text-xs font-bold"
           style={{
-            background: "rgba(108,92,231,0.4)",
-            color: "#c4b5fd",
+            background: "var(--home-pricing-highlight-feature-hover)",
+            color: "var(--home-text-inverse)",
             fontFamily: "'Cairo', sans-serif",
           }}
         >
@@ -610,73 +570,52 @@ function OrderSummary({ items }: OrderSummaryProps) {
         </span>
       </div>
 
-      <div className="p-6 flex flex-col gap-4">
-        {/* Line items */}
+      <div className="flex flex-col gap-4 p-6">
         <div className="flex flex-col gap-3">
-          <SummaryRow
-            label="المجموع قبل الخصم"
-            value={subtotal}
-            color="#555"
-          />
+          <SummaryRow label="المجموع قبل الخصم" value={subtotal} valueTone="default" />
           {optionsTotal > 0 && (
-            <SummaryRow
-              label="إضافات الخيارات"
-              value={optionsTotal}
-              color="#6C5CE7"
-              prefix="+"
-            />
+            <SummaryRow label="إضافات الخيارات" value={optionsTotal} valueTone="brand" prefix="+" />
           )}
-          <SummaryRow
-            label="خصم المنتجات"
-            value={discountBeforeCoupon}
-            color="#00b894"
-            prefix="-"
-          />
+          <SummaryRow label="خصم المنتجات" value={discountBeforeCoupon} valueTone="success" prefix="-" />
         </div>
 
-        {/* Divider */}
-        <div
-          className="h-px rounded-full"
-          style={{ background: "rgba(108,92,231,0.1)" }}
-        />
+        <div className="h-px rounded-full" style={{ background: "var(--home-card-border)" }} />
 
-        {/* Coupon hint */}
         <motion.div
           initial={false}
           animate={appliedCoupon ? { height: 0, opacity: 0 } : { height: "auto", opacity: 1 }}
           className="overflow-hidden"
         >
           <div
-            className="flex items-center gap-2 text-xs px-3 py-2.5 rounded-2xl"
+            className="flex items-center gap-2 rounded-2xl px-3 py-2.5 text-xs"
             style={{
-              background: "linear-gradient(135deg, rgba(108,92,231,0.07), rgba(0,206,201,0.07))",
-              color: "#6C5CE7",
+              background: "color-mix(in srgb, var(--home-brand) 8%, transparent)",
+              color: "var(--home-brand)",
               fontFamily: "'Cairo', sans-serif",
-              border: "1px dashed rgba(108,92,231,0.25)",
+              border: "1px dashed var(--home-accent-soft-border)",
             }}
           >
-            <Sparkles className="w-3.5 h-3.5 flex-shrink-0" />
+            <Sparkles className="h-3.5 w-3.5 flex-shrink-0" />
             <span>
               استخدم الكود{" "}
               <strong
-                className="font-black cursor-pointer hover:underline"
+                className="cursor-pointer font-black hover:underline"
                 onClick={() => setCoupon("test")}
-                style={{ color: "#2d1b69" }}
+                style={{ color: "var(--home-text-primary)" }}
               >
-                'test'
+                {"'test'"}
               </strong>{" "}
               للحصول على خصم 50%
             </span>
           </div>
         </motion.div>
 
-        {/* Coupon input */}
         {!appliedCoupon ? (
           <div className="flex gap-2">
             <div className="relative flex-1">
               <Tag
-                className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4"
-                style={{ color: "#aaa" }}
+                className="absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2"
+                style={{ color: "var(--home-text-muted)" }}
               />
               <input
                 type="text"
@@ -687,28 +626,27 @@ function OrderSummary({ items }: OrderSummaryProps) {
                 }}
                 onKeyDown={(e) => e.key === "Enter" && handleApplyCoupon()}
                 placeholder="كود الخصم"
-                className="w-full pr-9 pl-3 py-2.5 rounded-2xl text-sm outline-none transition-all duration-200 focus:ring-2"
+                className="w-full rounded-2xl py-2.5 pl-3 pr-9 text-sm outline-none transition-all duration-200 focus-visible:ring-2 focus-visible:ring-[var(--home-brand)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--home-card-bg)]"
                 style={{
                   background:
-                    couponStatus === "error"
-                      ? "rgba(255,71,87,0.06)"
-                      : "rgba(108,92,231,0.05)",
+                    couponStatus === "error" ? "var(--home-wishlist-bg)" : "var(--home-pdp-subtle-surface)",
                   border:
                     couponStatus === "error"
-                      ? "1.5px solid rgba(255,71,87,0.4)"
-                      : "1.5px solid rgba(108,92,231,0.15)",
-                  color: "#1a0533",
+                      ? "1.5px solid var(--home-wishlist-border)"
+                      : "1.5px solid var(--home-accent-soft-border)",
+                  color: "var(--home-text-primary)",
                   fontFamily: "'Cairo', sans-serif",
                   direction: "rtl",
                 }}
               />
             </div>
             <button
+              type="button"
               onClick={handleApplyCoupon}
-              className="px-4 py-2.5 rounded-2xl text-sm font-bold text-white transition-all duration-200 hover:scale-105 active:scale-95 flex-shrink-0"
+              className="flex-shrink-0 rounded-2xl px-4 py-2.5 text-sm font-bold text-white transition-all duration-200 hover:scale-105 active:scale-95"
               style={{
-                background: "linear-gradient(135deg, #6C5CE7, #a29bfe)",
-                boxShadow: "0 4px 16px rgba(108,92,231,0.3)",
+                background: "var(--home-gradient-brand)",
+                boxShadow: "var(--home-cta-shadow)",
                 fontFamily: "'Cairo', sans-serif",
               }}
             >
@@ -719,32 +657,30 @@ function OrderSummary({ items }: OrderSummaryProps) {
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex items-center justify-between px-3 py-2.5 rounded-2xl"
+            className="flex items-center justify-between rounded-2xl px-3 py-2.5"
             style={{
-              background: "rgba(0,184,148,0.08)",
-              border: "1.5px solid rgba(0,184,148,0.3)",
+              background: "var(--home-success-soft)",
+              border: "1.5px solid color-mix(in srgb, var(--home-success) 35%, transparent)",
             }}
           >
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4" style={{ color: "#00b894" }} />
-              <span
-                className="text-sm font-bold"
-                style={{ color: "#00b894", fontFamily: "'Cairo', sans-serif" }}
-              >
-                كود <strong>'{appliedCoupon}'</strong> مُطبَّق — خصم 50%
+              <CheckCircle2 className="h-4 w-4" style={{ color: "var(--home-success)" }} />
+              <span className="text-sm font-bold" style={{ color: "var(--home-success)", fontFamily: "'Cairo', sans-serif" }}>
+                كود <strong>{`'${appliedCoupon}'`}</strong> مُطبَّق — خصم 50%
               </span>
             </div>
             <button
+              type="button"
               onClick={handleRemoveCoupon}
-              className="w-6 h-6 rounded-full flex items-center justify-center hover:bg-red-50 transition-colors"
-              style={{ color: "#999" }}
+              className="flex h-6 w-6 items-center justify-center rounded-full transition-colors hover:bg-[var(--home-wishlist-bg)]"
+              style={{ color: "var(--home-text-muted)" }}
+              aria-label="إزالة الكوبون"
             >
-              <X className="w-3.5 h-3.5" />
+              <X className="h-3.5 w-3.5" />
             </button>
           </motion.div>
         )}
 
-        {/* Coupon error */}
         <AnimatePresence>
           {couponStatus === "error" && (
             <motion.div
@@ -752,15 +688,14 @@ function OrderSummary({ items }: OrderSummaryProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -6 }}
               className="flex items-center gap-1.5 text-xs"
-              style={{ color: "#ff4757", fontFamily: "'Cairo', sans-serif" }}
+              style={{ color: "var(--home-wishlist)", fontFamily: "'Cairo', sans-serif" }}
             >
-              <AlertCircle className="w-3.5 h-3.5" />
+              <AlertCircle className="h-3.5 w-3.5" />
               كود الخصم غير صحيح. حاول مرة أخرى.
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Coupon discount row */}
         <AnimatePresence>
           {appliedCoupon && couponDiscount > 0 && (
             <motion.div
@@ -768,61 +703,38 @@ function OrderSummary({ items }: OrderSummaryProps) {
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
             >
-              <SummaryRow
-                label="خصم الكود (50%)"
-                value={couponDiscount}
-                color="#ff4757"
-                prefix="-"
-                highlight
-              />
+              <SummaryRow label="خصم الكود (50%)" value={couponDiscount} valueTone="danger" prefix="-" highlight />
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Divider */}
-        <div
-          className="h-px rounded-full"
-          style={{ background: "rgba(108,92,231,0.1)" }}
-        />
+        <div className="h-px rounded-full" style={{ background: "var(--home-card-border)" }} />
 
-        {/* Final total */}
         <div className="flex items-center justify-between">
-          <span
-            className="text-base font-bold"
-            style={{ color: "#1a0533", fontFamily: "'Cairo', sans-serif" }}
-          >
+          <span className="text-base font-bold" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
             الإجمالي النهائي
           </span>
-          <span
-            className="text-2xl font-black"
-            style={{ color: "#1a0533", fontFamily: "'Cairo', sans-serif" }}
-          >
+          <span className="text-2xl font-black" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
             <AnimatedPrice value={finalTotal} />
           </span>
         </div>
 
-        {/* Checkout button */}
         <button
-          className="w-full py-4 rounded-2xl text-white font-bold text-base flex items-center justify-center gap-2 transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl active:scale-[0.98] mt-1"
+          type="button"
+          className="mt-1 flex w-full items-center justify-center gap-2 rounded-2xl py-4 text-base font-bold text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl active:scale-[0.98]"
           style={{
-            background:
-              "linear-gradient(135deg, #1a0533 0%, #6C5CE7 60%, #00CEC9 100%)",
-            boxShadow: "0 12px 40px rgba(108,92,231,0.4)",
+            background: "var(--home-gradient-brand)",
+            boxShadow: "var(--home-cta-shadow-lg)",
             fontFamily: "'Cairo', sans-serif",
           }}
         >
           إتمام الشراء
-          <ArrowRight className="w-4.5 h-4.5" />
+          <ArrowRight className="h-[18px] w-[18px]" />
         </button>
 
-        {/* Security */}
         <div className="flex justify-center gap-4 pt-1">
           {["🔒 دفع آمن", "✅ ضمان الاسترجاع", "🚀 شحن سريع"].map((t) => (
-            <span
-              key={t}
-              className="text-xs"
-              style={{ color: "#aaa", fontFamily: "'Cairo', sans-serif" }}
-            >
+            <span key={t} className="text-xs" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
               {t}
             </span>
           ))}
@@ -834,43 +746,45 @@ function OrderSummary({ items }: OrderSummaryProps) {
 
 // ─── SummaryRow helper ────────────────────────────────────────────────────────
 
+type SummaryValueTone = "default" | "brand" | "success" | "danger";
+
+const summaryToneColor: Record<SummaryValueTone, string> = {
+  default: "var(--home-text-secondary)",
+  brand: "var(--home-brand)",
+  success: "var(--home-success)",
+  danger: "var(--home-wishlist)",
+};
+
 function SummaryRow({
   label,
   value,
-  color,
+  valueTone,
   prefix = "",
   highlight = false,
 }: {
   label: string;
   value: number;
-  color: string;
+  valueTone: SummaryValueTone;
   prefix?: string;
   highlight?: boolean;
 }) {
+  const valueColor = summaryToneColor[valueTone];
   return (
     <div
-      className={`flex items-center justify-between py-0.5 ${
-        highlight ? "px-3 py-2 rounded-xl" : ""
-      }`}
+      className={`flex items-center justify-between py-0.5 ${highlight ? "rounded-xl px-3 py-2" : ""}`}
       style={
         highlight
           ? {
-              background: "rgba(255,71,87,0.06)",
-              border: "1px dashed rgba(255,71,87,0.25)",
+              background: "var(--home-wishlist-bg)",
+              border: "1px dashed var(--home-wishlist-border)",
             }
           : {}
       }
     >
-      <span
-        className="text-sm font-medium"
-        style={{ color: "#777", fontFamily: "'Cairo', sans-serif" }}
-      >
+      <span className="text-sm font-medium" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
         {label}
       </span>
-      <span
-        className="text-sm font-bold tabular-nums"
-        style={{ color, fontFamily: "'Cairo', sans-serif" }}
-      >
+      <span className="text-sm font-bold tabular-nums" style={{ color: valueColor, fontFamily: "'Cairo', sans-serif" }}>
         {prefix}
         <AnimatedPrice value={value} />
       </span>
@@ -886,52 +800,47 @@ function EmptyCart() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="col-span-full flex flex-col items-center justify-center py-24 text-center"
+      className="col-span-full flex flex-col items-center justify-center rounded-3xl py-24 text-center"
+      style={{
+        background: "var(--home-card-bg)",
+        border: "1px solid var(--home-card-border)",
+        boxShadow: "var(--home-card-shadow)",
+      }}
     >
-      {/* Animated bag */}
       <motion.div
         animate={{ y: [0, -12, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         className="mb-8"
       >
         <div
-          className="w-32 h-32 rounded-full flex items-center justify-center mx-auto"
+          className="mx-auto flex h-32 w-32 items-center justify-center rounded-full"
           style={{
-            background:
-              "linear-gradient(135deg, rgba(108,92,231,0.1), rgba(0,206,201,0.1))",
-            border: "2px dashed rgba(108,92,231,0.25)",
+            background: "color-mix(in srgb, var(--home-brand) 10%, transparent)",
+            border: "2px dashed var(--home-accent-soft-border)",
           }}
         >
-          <ShoppingBag
-            className="w-14 h-14"
-            style={{ color: "rgba(108,92,231,0.4)" }}
-          />
+          <ShoppingBag className="h-14 w-14" style={{ color: "var(--home-brand-muted)" }} />
         </div>
       </motion.div>
 
-      <h2
-        className="text-2xl font-black mb-3"
-        style={{ color: "#1a0533", fontFamily: "'Cairo', sans-serif" }}
-      >
+      <h2 className="mb-3 text-2xl font-black" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
         سلتك فارغة
       </h2>
-      <p
-        className="text-base mb-8 max-w-xs"
-        style={{ color: "#999", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}
-      >
+      <p className="mb-8 max-w-xs text-base" style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif", lineHeight: 1.8 }}>
         يبدو أنك لم تضف أي منتجات بعد. ابدأ التسوق الآن!
       </p>
 
       <Link to="/">
         <button
-          className="inline-flex items-center gap-2 px-8 py-4 rounded-2xl text-white font-bold text-sm transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
+          type="button"
+          className="inline-flex items-center gap-2 rounded-2xl px-8 py-4 text-sm font-bold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl active:scale-95"
           style={{
-            background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
-            boxShadow: "0 10px 32px rgba(108,92,231,0.35)",
+            background: "var(--home-gradient-brand)",
+            boxShadow: "var(--home-cta-shadow)",
             fontFamily: "'Cairo', sans-serif",
           }}
         >
-          <ChevronRight className="w-4 h-4" />
+          <ChevronRight className="h-4 w-4" />
           تصفح المنتجات
         </button>
       </Link>
@@ -941,6 +850,23 @@ function EmptyCart() {
 
 // ─── CartPage ─────────────────────────────────────────────────────────────────
 
+const cartBreadcrumb = (
+  <nav
+    className="flex items-center gap-1 text-xs"
+    aria-label="مسار التنقل"
+    style={{ fontFamily: "'Cairo', sans-serif" }}
+  >
+    <Link to="/" className="flex items-center gap-1 transition-opacity duration-150 hover:opacity-70" style={{ color: "var(--home-text-muted)" }}>
+      <Home className="h-3.5 w-3.5" />
+      الرئيسية
+    </Link>
+    <ChevronLeft className="h-3 w-3" style={{ color: "var(--home-breadcrumb-chevron)" }} />
+    <span className="font-semibold" style={{ color: "var(--home-text-primary)" }}>
+      سلة التسوق
+    </span>
+  </nav>
+);
+
 export function CartPage() {
   const [cart, dispatch] = useReducer(cartReducer, INITIAL_CART);
 
@@ -948,62 +874,51 @@ export function CartPage() {
 
   return (
     <div
-      className="min-h-screen"
+      dir="rtl"
+      className="relative min-h-screen"
       style={{
-        background:
-          "linear-gradient(160deg, #F0EEFF 0%, #F8F9FC 40%, #E8FFFE 100%)",
+        background: "var(--home-cart-page-bg)",
+        color: "var(--home-text-primary)",
         fontFamily: "'Cairo', sans-serif",
       }}
     >
-      {/* Ambient blobs */}
       <div
-        className="fixed top-0 left-0 w-[600px] h-[600px] -translate-x-1/2 -translate-y-1/2 opacity-30 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, #a29bfe 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
+        className="pointer-events-none fixed left-0 top-0 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 opacity-[0.35]"
+        style={{ background: "var(--home-cart-blob-1)", filter: "blur(80px)" }}
       />
       <div
-        className="fixed bottom-0 right-0 w-[500px] h-[500px] translate-x-1/3 translate-y-1/3 opacity-20 pointer-events-none"
-        style={{
-          background: "radial-gradient(circle, #00CEC9 0%, transparent 70%)",
-          filter: "blur(80px)",
-        }}
+        className="pointer-events-none fixed bottom-0 right-0 h-[500px] w-[500px] translate-x-1/3 translate-y-1/3 opacity-25"
+        style={{ background: "var(--home-cart-blob-2)", filter: "blur(80px)" }}
       />
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        {/* Header */}
+      <AppPageHeader center={cartBreadcrumb} />
+
+      <div className="relative mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="mb-10"
+          transition={{ duration: 0.45 }}
+          className="mb-8 sm:mb-10"
         >
-          {/* Breadcrumb */}
           <nav
-            className="flex items-center gap-1.5 text-sm mb-5"
-            style={{ color: "#aaa", fontFamily: "'Cairo', sans-serif" }}
+            className="mb-4 flex items-center gap-1.5 text-sm md:hidden"
+            style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}
+            aria-label="مسار التنقل"
           >
-            <Link
-              to="/"
-              className="hover:text-purple-600 transition-colors flex items-center gap-1"
-            >
+            <Link to="/" className="transition-opacity hover:opacity-80" style={{ color: "var(--home-text-muted)" }}>
               الرئيسية
             </Link>
-            <ChevronRight className="w-3.5 h-3.5" />
-            <span style={{ color: "#6C5CE7" }}>سلة التسوق</span>
+            <ChevronRight className="h-3.5 w-3.5" style={{ color: "var(--home-breadcrumb-chevron)" }} />
+            <span style={{ color: "var(--home-brand)" }}>سلة التسوق</span>
           </nav>
 
-          <div className="flex items-center justify-between flex-wrap gap-4">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <h1
-                className="text-3xl sm:text-4xl font-black"
-                style={{ color: "#1a0533", fontFamily: "'Cairo', sans-serif" }}
-              >
+              <h1 className="text-3xl font-black sm:text-4xl" style={{ color: "var(--home-text-primary)", fontFamily: "'Cairo', sans-serif" }}>
                 سلة{" "}
                 <span
                   style={{
-                    background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
+                    background: "var(--home-gradient-text)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                   }}
@@ -1012,10 +927,7 @@ export function CartPage() {
                 </span>
               </h1>
               {!isEmpty && (
-                <p
-                  className="text-sm mt-1"
-                  style={{ color: "#999", fontFamily: "'Cairo', sans-serif" }}
-                >
+                <p className="mt-1 text-sm" style={{ color: "var(--home-text-muted)", fontFamily: "'Cairo', sans-serif" }}>
                   {cart.reduce((s, p) => s + p.quantity, 0)} منتج في سلتك
                 </p>
               )}
@@ -1023,23 +935,23 @@ export function CartPage() {
 
             <Link to="/">
               <button
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
+                type="button"
+                className="inline-flex items-center gap-2 rounded-2xl px-5 py-2.5 text-sm font-bold transition-all duration-200 hover:scale-105 active:scale-95"
                 style={{
-                  background: "rgba(108,92,231,0.08)",
-                  color: "#6C5CE7",
-                  border: "1.5px solid rgba(108,92,231,0.2)",
+                  background: "var(--home-pdp-cart-chip-bg)",
+                  color: "var(--home-brand)",
+                  border: "1.5px solid var(--home-accent-soft-border)",
                   fontFamily: "'Cairo', sans-serif",
                 }}
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="h-4 w-4" />
                 متابعة التسوق
               </button>
             </Link>
           </div>
         </motion.div>
 
-        {/* Main layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8 items-start">
+        <div className="grid grid-cols-1 items-start gap-8 lg:grid-cols-[1fr_380px]">
           {/* Left: Cart items */}
           <div>
             <AnimatePresence mode="popLayout">
@@ -1051,22 +963,9 @@ export function CartPage() {
                   className="flex flex-col gap-4"
                 >
                   {/* Items header */}
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    className="flex items-center gap-2 px-1 mb-1"
-                  >
-                    <Package
-                      className="w-4.5 h-4.5"
-                      style={{ color: "#6C5CE7" }}
-                    />
-                    <span
-                      className="text-sm font-bold"
-                      style={{
-                        color: "#6C5CE7",
-                        fontFamily: "'Cairo', sans-serif",
-                      }}
-                    >
+                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-1 flex items-center gap-2 px-1">
+                    <Package className="h-[18px] w-[18px]" style={{ color: "var(--home-brand)" }} />
+                    <span className="text-sm font-bold" style={{ color: "var(--home-brand)", fontFamily: "'Cairo', sans-serif" }}>
                       المنتجات ({cart.length})
                     </span>
                   </motion.div>
@@ -1099,7 +998,7 @@ export function CartPage() {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.5, delay: 0.15 }}
-              className="lg:sticky lg:top-8"
+              className="lg:sticky lg:top-24"
             >
               <OrderSummary items={cart} />
             </motion.div>

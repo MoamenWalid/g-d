@@ -8,6 +8,7 @@ import {
   ChevronLeft, ChevronRight, MessageCircle, CheckCircle2,
   Send, RefreshCw, PackageCheck, ClipboardList, TrendingUp, Quote,
 } from "lucide-react";
+import { useHomeTheme } from "../context/HomeThemeContext";
 
 // ---------------------------------------------------------------------------
 // Constants
@@ -355,15 +356,15 @@ export function ServicesSection() {
 
   return (
     <>
-      <section id="services" className="py-24" style={{ background: "#F8F9FC" }}>
+      <section id="services" className="py-24" style={{ background: "var(--home-section-muted)" }}>
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           {/* Header */}
           <div className="text-center mb-14">
             <div
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-4 text-sm font-semibold"
               style={{
-                background: "rgba(108,92,231,0.1)",
-                color: "#6C5CE7",
+                background: "var(--home-pill-bg)",
+                color: "var(--home-brand)",
                 fontFamily: "'Cairo', sans-serif",
               }}
             >
@@ -376,13 +377,13 @@ export function ServicesSection() {
                 fontFamily: "'Cairo', sans-serif",
                 fontSize: "clamp(1.8rem, 3vw, 2.8rem)",
                 fontWeight: 800,
-                color: "#2D3436",
+                color: "var(--home-text-primary)",
               }}
             >
               خدمات مميزة،{" "}
               <span
                 style={{
-                  background: "linear-gradient(135deg, #6C5CE7, #00CEC9)",
+                  background: "var(--home-gradient-text)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                 }}
@@ -393,7 +394,7 @@ export function ServicesSection() {
             <p
               className="max-w-2xl mx-auto"
               style={{
-                color: "#636e72",
+                color: "var(--home-text-secondary)",
                 fontFamily: "'Cairo', sans-serif",
                 lineHeight: 1.8,
                 fontSize: "1.05rem",
@@ -413,16 +414,12 @@ export function ServicesSection() {
                 style={{
                   fontFamily: "'Cairo', sans-serif",
                   background:
-                    activeTab === tab
-                      ? "linear-gradient(135deg, #6C5CE7, #00CEC9)"
-                      : "white",
-                  color: activeTab === tab ? "white" : "#636e72",
+                    activeTab === tab ? "var(--home-gradient-brand)" : "var(--home-tab-inactive-bg)",
+                  color: activeTab === tab ? "var(--home-text-inverse)" : "var(--home-tab-inactive-text)",
                   boxShadow:
-                    activeTab === tab
-                      ? "0 4px 20px rgba(108,92,231,0.35)"
-                      : "0 2px 8px rgba(0,0,0,0.08)",
+                    activeTab === tab ? "var(--home-cta-shadow)" : "var(--home-tab-inactive-shadow)",
                   border:
-                    activeTab === tab ? "none" : "1px solid rgba(108,92,231,0.15)",
+                    activeTab === tab ? "none" : "1px solid var(--home-tab-inactive-border)",
                 }}
               >
                 {tab}
@@ -466,25 +463,7 @@ function ServiceCard({
   const Icon = service.icon;
 
   return (
-    <div
-      className="group relative bg-white rounded-3xl p-6 transition-all duration-300 hover:-translate-y-2 flex flex-col"
-      style={{
-        boxShadow: "0 4px 20px rgba(0,0,0,0.06)",
-        border: "1px solid rgba(108,92,231,0.08)",
-      }}
-      onMouseEnter={(e) => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow =
-          "0 16px 48px rgba(108,92,231,0.18)";
-        (e.currentTarget as HTMLDivElement).style.borderColor =
-          "rgba(108,92,231,0.25)";
-      }}
-      onMouseLeave={(e) => {
-        (e.currentTarget as HTMLDivElement).style.boxShadow =
-          "0 4px 20px rgba(0,0,0,0.06)";
-        (e.currentTarget as HTMLDivElement).style.borderColor =
-          "rgba(108,92,231,0.08)";
-      }}
-    >
+    <div className="home-service-card group relative flex flex-col rounded-3xl p-6 transition-transform duration-300 hover:-translate-y-2">
       {service.tag && (
         <div
           className="absolute top-5 left-5 px-3 py-1 rounded-full text-xs font-bold text-white"
@@ -510,7 +489,7 @@ function ServiceCard({
           fontFamily: "'Cairo', sans-serif",
           fontSize: "1.15rem",
           fontWeight: 700,
-          color: "#2D3436",
+          color: "var(--home-text-primary)",
         }}
       >
         {service.title}
@@ -518,7 +497,7 @@ function ServiceCard({
       <p
         className="mb-4 flex-1"
         style={{
-          color: "#636e72",
+          color: "var(--home-text-secondary)",
           fontFamily: "'Cairo', sans-serif",
           fontSize: "0.9rem",
           lineHeight: 1.7,
@@ -538,7 +517,7 @@ function ServiceCard({
             </div>
             <span
               className="text-sm"
-              style={{ color: "#636e72", fontFamily: "'Cairo', sans-serif" }}
+              style={{ color: "var(--home-text-secondary)", fontFamily: "'Cairo', sans-serif" }}
             >
               {f}
             </span>
@@ -547,15 +526,15 @@ function ServiceCard({
       </ul>
 
       <div
-        className="flex items-center justify-between pt-4 border-t"
-        style={{ borderColor: "rgba(108,92,231,0.1)" }}
+        className="flex items-center justify-between border-t pt-4"
+        style={{ borderColor: "var(--home-modal-divider)" }}
       >
         <span
           className="font-bold"
           style={{
             fontFamily: "'Cairo', sans-serif",
             fontSize: "1.3rem",
-            color: "#2D3436",
+            color: "var(--home-text-primary)",
           }}
         >
           {service.price}
@@ -564,16 +543,16 @@ function ServiceCard({
           <button
             onClick={() => onQuickView(service)}
             className="p-2.5 rounded-xl transition-all duration-200 border group/eye"
-            style={{ borderColor: "rgba(108,92,231,0.2)", color: "#6C5CE7" }}
+            style={{ borderColor: "var(--home-accent-soft-border)", color: "var(--home-brand)" }}
             title="معاينة سريعة"
             onMouseEnter={(e) => {
-              e.currentTarget.style.background = "rgba(108,92,231,0.08)";
-              e.currentTarget.style.borderColor = "rgba(108,92,231,0.4)";
+              e.currentTarget.style.background = "var(--home-accent-soft-bg)";
+              e.currentTarget.style.borderColor = "var(--home-accent-ring)";
               e.currentTarget.style.transform = "scale(1.1)";
             }}
             onMouseLeave={(e) => {
               e.currentTarget.style.background = "transparent";
-              e.currentTarget.style.borderColor = "rgba(108,92,231,0.2)";
+              e.currentTarget.style.borderColor = "var(--home-accent-soft-border)";
               e.currentTarget.style.transform = "scale(1)";
             }}
           >
@@ -640,7 +619,7 @@ function PortfolioCarousel({
           className="w-1 h-5 rounded-full"
           style={{ background: color }}
         />
-        <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "#2D3436" }}>
+        <span style={{ fontSize: "0.85rem", fontWeight: 700, color: "var(--home-text-primary)" }}>
           أعمال من محفظتنا
         </span>
         <span
@@ -809,7 +788,7 @@ function PortfolioCarousel({
                 width: i === selectedIndex ? "22px" : "8px",
                 height: "8px",
                 borderRadius: "4px",
-                background: i === selectedIndex ? color : "rgba(0,0,0,0.15)",
+                background: i === selectedIndex ? color : "var(--home-carousel-dot-inactive)",
                 border: "none",
                 cursor: "pointer",
                 padding: 0,
@@ -892,6 +871,8 @@ function QuickViewModal({
   open: boolean;
   onClose: () => void;
 }) {
+  const { portalRef } = useHomeTheme();
+
   // Lock body scroll + Escape key handler
   useEffect(() => {
     if (!open) return;
@@ -924,7 +905,7 @@ function QuickViewModal({
           style={{
             position: "fixed",
             inset: 0,
-            background: "rgba(10, 6, 30, 0.72)",
+            background: "var(--home-modal-overlay)",
             backdropFilter: "blur(10px)",
             WebkitBackdropFilter: "blur(10px)",
             zIndex: 9998,
@@ -950,7 +931,7 @@ function QuickViewModal({
               width: "100%",
               maxWidth: "920px",
               maxHeight: "92vh",
-              background: "white",
+              background: "var(--home-modal-surface)",
               borderRadius: "24px",
               display: "flex",
               flexDirection: "column",
@@ -963,12 +944,12 @@ function QuickViewModal({
             <div
               style={{
                 padding: "18px 24px",
-                borderBottom: "1px solid rgba(108,92,231,0.1)",
+                borderBottom: "1px solid var(--home-modal-divider)",
                 display: "flex",
                 alignItems: "center",
                 gap: "14px",
                 flexShrink: 0,
-                background: "white",
+                background: "var(--home-modal-surface)",
               }}
             >
               {/* Service icon */}
@@ -994,7 +975,7 @@ function QuickViewModal({
                     fontFamily: "'Cairo', sans-serif",
                     fontSize: "1.15rem",
                     fontWeight: 800,
-                    color: "#2D3436",
+                    color: "var(--home-text-primary)",
                     margin: 0,
                     lineHeight: 1.2,
                   }}
@@ -1028,12 +1009,12 @@ function QuickViewModal({
                     style={{
                       fontSize: "0.8rem",
                       fontWeight: 800,
-                      color: "#2D3436",
+                      color: "var(--home-text-primary)",
                     }}
                   >
                     {s.rating}
                   </span>
-                  <span style={{ fontSize: "0.78rem", color: "#636e72" }}>
+                  <span style={{ fontSize: "0.78rem", color: "var(--home-text-secondary)" }}>
                     ({s.reviewCount} تقييم)
                   </span>
                   <span
@@ -1058,25 +1039,25 @@ function QuickViewModal({
                   width: "36px",
                   height: "36px",
                   borderRadius: "10px",
-                  border: "1px solid rgba(108,92,231,0.15)",
+                  border: "1px solid var(--home-accent-soft-border)",
                   background: "transparent",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                   cursor: "pointer",
-                  color: "#636e72",
+                  color: "var(--home-text-secondary)",
                   flexShrink: 0,
                   transition: "all 0.2s",
                 }}
                 onMouseEnter={(e) => {
-                  e.currentTarget.style.background = "#f0eeff";
-                  e.currentTarget.style.color = "#6C5CE7";
-                  e.currentTarget.style.borderColor = "rgba(108,92,231,0.35)";
+                  e.currentTarget.style.background = "var(--home-modal-close-hover-bg)";
+                  e.currentTarget.style.color = "var(--home-brand)";
+                  e.currentTarget.style.borderColor = "var(--home-accent-ring)";
                 }}
                 onMouseLeave={(e) => {
                   e.currentTarget.style.background = "transparent";
-                  e.currentTarget.style.color = "#636e72";
-                  e.currentTarget.style.borderColor = "rgba(108,92,231,0.15)";
+                  e.currentTarget.style.color = "var(--home-text-secondary)";
+                  e.currentTarget.style.borderColor = "var(--home-accent-soft-border)";
                 }}
               >
                 <X className="w-4 h-4" />
@@ -1112,11 +1093,11 @@ function QuickViewModal({
                   <div
                     style={{
                       marginTop: "20px",
-                      background: "white",
-                      border: "1px solid rgba(108,92,231,0.12)",
+                      background: "var(--home-modal-quote-card-bg)",
+                      border: "1px solid var(--home-modal-quote-card-border)",
                       borderRadius: "16px",
                       padding: "16px",
-                      boxShadow: "0 4px 20px rgba(0,0,0,0.05)",
+                      boxShadow: "var(--home-modal-quote-card-shadow)",
                     }}
                   >
                     <Quote
@@ -1126,7 +1107,7 @@ function QuickViewModal({
                     <p
                       style={{
                         fontSize: "0.875rem",
-                        color: "#2D3436",
+                        color: "var(--home-text-primary)",
                         lineHeight: 1.75,
                         margin: "0 0 12px",
                         fontStyle: "italic",
@@ -1167,7 +1148,7 @@ function QuickViewModal({
                         style={{
                           fontSize: "0.82rem",
                           fontWeight: 700,
-                          color: "#2D3436",
+                          color: "var(--home-text-primary)",
                         }}
                       >
                         {s.testimonial.author}
@@ -1244,7 +1225,7 @@ function QuickViewModal({
                           <span
                             style={{
                               fontSize: "0.865rem",
-                              color: "#2D3436",
+                              color: "var(--home-text-primary)",
                               fontWeight: 500,
                             }}
                           >
@@ -1273,7 +1254,7 @@ function QuickViewModal({
                     <p
                       style={{
                         fontSize: "0.875rem",
-                        color: "#4a5568",
+                        color: "var(--home-modal-body-text)",
                         lineHeight: 1.85,
                         margin: 0,
                       }}
@@ -1327,7 +1308,7 @@ function QuickViewModal({
                                 style={{
                                   fontSize: "0.6rem",
                                   textAlign: "center",
-                                  color: "#636e72",
+                                  color: "var(--home-text-secondary)",
                                   fontWeight: 600,
                                   lineHeight: 1.3,
                                   width: "52px",
@@ -1361,15 +1342,15 @@ function QuickViewModal({
             <div
               style={{
                 padding: "14px 24px",
-                borderTop: "1px solid rgba(108,92,231,0.1)",
-                background: "white",
+                borderTop: "1px solid var(--home-modal-divider)",
+                background: "var(--home-modal-surface)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: "12px",
                 flexShrink: 0,
                 flexWrap: "wrap",
-                boxShadow: "0 -6px 24px rgba(0,0,0,0.06)",
+                boxShadow: "var(--home-modal-footer-shadow)",
               }}
             >
               {/* Price block */}
@@ -1377,7 +1358,7 @@ function QuickViewModal({
                 <div
                   style={{
                     fontSize: "0.72rem",
-                    color: "#636e72",
+                    color: "var(--home-text-secondary)",
                     marginBottom: "2px",
                     fontWeight: 600,
                   }}
@@ -1389,7 +1370,7 @@ function QuickViewModal({
                     fontFamily: "'Cairo', sans-serif",
                     fontSize: "1.55rem",
                     fontWeight: 800,
-                    color: "#2D3436",
+                    color: "var(--home-text-primary)",
                     lineHeight: 1,
                   }}
                 >
@@ -1471,7 +1452,7 @@ function QuickViewModal({
         </motion.div>
       )}
     </AnimatePresence>,
-    document.body
+    portalRef.current ?? document.body
   );
 }
 
@@ -1494,7 +1475,7 @@ function SectionTitle({
         fontFamily: "'Cairo', sans-serif",
         fontSize: "0.95rem",
         fontWeight: 800,
-        color: "#2D3436",
+        color: "var(--home-text-primary)",
         marginBottom: "12px",
         display: "flex",
         alignItems: "center",
